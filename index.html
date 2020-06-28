@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dmitrii Shapoval</title>
+    <meta name="description" content="Dmitrii Shapoval -  software developer, web developer, JavaScript developer.   | Resume | Contacts | Business card site | Photo | Social networks">
+<!--    <meta name="description" content="Дмитрий Шаповал - разработчик програмного обеспечения, веб-разработчик, JavaScript-разработчик. | Резюме | Контакты | Сайт-визитка | Фото | Социальные сети">-->
+    <meta name="keywords" content="разработчик програмного обеспечения, веб-разработчик">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <meta property="og:locale" content="en_EN">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="Dmitrii Shapoval">
+    <meta property="og:description" content="Dmitrii Shapoval - software developer, web developer, JavaScript developer.   | Resume | Contacts | Business card site | Photo | Social networks">
+    <meta property="og:url" content="shapoval.pro">
+    <meta property="og:image" content="images/DmitriiShapoval-avatar2x(360x456).jpg">
+    <meta property="og:site_name" content="shapoval.pro ➤ business card site">
+    <link rel="apple-touch-icon" sizes="180x180" href="favicons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="favicons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="favicons/favicon-16x16.png">
+    <link rel="manifest" href="favicons/site.webmanifest">
+    <link rel="stylesheet" type="text/css" href="libraries/normalize/normalize.min.css">
+    <link rel="stylesheet" type="text/css" href="libraries/fontawesome/all.min.css">
+    <link rel="stylesheet" type="text/css" href="css/main.css">
+    <link rel="stylesheet" type="text/css" href="css/media.css">
+<!--    Style for MS Edge and IE11-8-->
+    <link rel="stylesheet" type="text/css" href="css/edge-ie11-8/Edge~44V.css">
+    <link rel="stylesheet" type="text/css" href="css/edge-ie11-8/IE11-9V.css">
+    <!--IE < 10 version-->
+    <!--[if IE]><link rel="stylesheet" type="text/css" href="css/edge-ie11-8/IE%3C10V.css"><![endif]-->
+    <!--[if lte IE 8]><link rel="stylesheet" type="text/css" href="css/edge-ie11-8/IE%3C=8V.css"><![endif]-->
+
+<!--    Animate test-->
+    <!--    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.0.0/animate.min.css">-->
+</head>
+<body>
+<header class="header">
+    <h1 class="header__title">Dmitrii Shapoval</h1>
+</header>
+<main class="main">
+    <div class="main__avatar avatar">
+        <img src="images/DmitriiShapoval-avatar.jpg" alt="Dmitrii Shapoval" class="avatar__photo">
+<!--        <img src="images/DmitriiShapoval-avatar2x(360x456).jpg" alt="Dmitrii Shapoval" class="avatar__photo360x456">-->
+        <h2 class="avatar__signature">Web - developer</h2>
+    </div>
+    <ul class="main__сontacts contacts">
+        <li class="contacts__item skype">
+            <a href="https://join.skype.com/invite/e6t70hKPwMNe" class="skype__icon link"></a>
+        </li>
+        <li class="contacts__item telegram">
+            <a href="https://t.me/Dmitrii_Shapoval" class="telegram__icon link"></a>
+        </li>
+        <li class="contacts__item facebook">
+            <a href="https://www.facebook.com/www.shapoval.pro" class="facebook__icon link"></a>
+        </li>
+        <li class="contacts__item linkedin">
+            <a href="http://www.linkedin.com/in/dmitrii-shapoval/" class="linkedin__icon link"></a>
+        </li>
+        <li class="contacts__item resume">
+            <a href="cv.html" class="resume__icon link" target="_blank" title="Resume"></a>
+        </li>
+        <!--Button "Resume" for MS Edge and all version Internet Explorer        -->
+        <li class="contacts__item resume-edge-ie">
+            <a href="https://buisnes-card-site.000webhostapp.com/cv.pdf" class="resume-edge-ie__icon link" target="_blank" title="Resume"></a>
+        </li>
+        <!--        Button "Resume" for MS Edge and all version Internet Explorer-->
+        <li class="contacts__item mail">
+            <button class="mail__icon link"></button> <!-- title="dmitrii@shapoval.pro  ➤  Click to copy ✉" -->
+            <div class="mail__tooltip mailing-address" id="mailTooltip" tabindex="0" title="Or press Ctrl+С (⌘+C for Mac)">
+                <input class="mailing-address__txt" type="text" id="mailingAddressTxt" value="dmitrii@shapoval.pro">
+                <span class="mailing-address__tooltip" id="MailingAddressTooltip">➤ Click to copy ✉</span>
+            </div>
+        </li>
+<!--        Replacing a link to mail-->
+        <li class="contacts__item mobile-mail">
+            <a href="mailto:dmitrii@shapoval.pro" class="mobile-mail__icon link"></a>
+        </li>
+    </ul>
+</main>
+<footer class="footer">
+    <h3 class="footer__copyright copyright"> © Dmitrii Shapoval <span class="copyright__this-year">2020</span></h3>
+</footer>
+<div class="modal">
+    <h4 class="modal__header">Hello!</h4>
+    <p class="modal__txt">Welcome to my business card site.</p>
+</div>
+<script src="js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,6 @@
+User-agent: *
+Disallow: /
+
+#Disallow: /libraries/
+#Disallow: /js/
+#Disallow: cv.html

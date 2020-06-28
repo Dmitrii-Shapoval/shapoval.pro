@@ -1,0 +1,149 @@
+/* Media Inquiries - Width ********************************************************/
+@media (max-width: 1440px) {
+    .contacts {
+        width: 85%;
+    }
+    .header__title {
+        font-size: 5.625rem;     /*font-size: 90px;*/
+    }
+}
+@media (max-width: 1024px) {
+    .mail {
+        display: none;
+    }
+    .mobile-mail {
+        display: flex;
+    }
+    .modal__txt {
+        font-size: 6vw;
+    }
+    .modal__header {
+        font-size: 7vw;
+    }
+    .modal__txt:lang(ru), .modal__txt:lang(uk),
+    .modal__header:lang(ru), .modal__header:lang(uk) {
+        font-size: 4.8vw;
+    }
+}
+@media (max-width: 830px) {
+    .header__title:lang(ru), .header__title:lang(uk) {
+        font-size: 10.5vw;
+    }
+}
+@media (max-width: 768px) {
+    body {
+        min-height: 650px;
+        background: conic-gradient(from 90deg at 50% 50%, #000000, #297acf, #000000 180deg);
+    }
+    .contacts {
+        width: 95%;
+    }
+    .header__title {
+        font-size: 12vw;
+    }
+    .avatar__photo {
+        width: 262px;
+        height: 332px;
+    }
+    .avatar__signature {
+        font-size: 3.5vh;
+    }
+}
+@media (max-width: 620px) {
+    body {
+        min-height: 550px;
+        background: black;
+        background: linear-gradient(0deg, #297acf , #000000 55%,  #000000);
+        background: conic-gradient(from 90deg at 50% 40%, #000000, #297acf, #000000 180deg);
+        /*Animations for body*/
+        animation: moveBackground  2.2s 1 ease-in 2.5s;
+    }
+    .header {
+        flex-grow: 2;
+    }
+    .contacts {
+        min-height: 200px;
+        width: 260px;
+        align-content: space-evenly;
+        flex-wrap: wrap-reverse;
+    }
+    .modal__header, .modal__txt {
+        background: linear-gradient(180deg, white 33%, rgba(17, 86, 200, 0.34) 76%, #000000);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+    }
+}
+@media (max-width: 375px) {
+    .header__title {
+        font-size: 13vw;
+    }
+    .header__title:lang(ru) {
+        font-size: 10.6vw;
+    }
+    .header__title:lang(uk) {
+        font-size: 11.4vw;
+    }
+}
+@media (max-width: 258px) {
+    body {
+        min-width: 220px;
+        background: linear-gradient(0deg, #297acf , #000000 55%,  #000000);
+    }
+    .contacts {
+        width: 55%;
+        justify-content: space-between;
+    }
+    .contacts__item {
+        font-size: 0.8em;
+    }
+    .avatar {
+        height: auto;
+        width: auto;
+    }
+    .main__avatar {
+        width: 100%;
+        height: auto;
+    }
+}
+/******************************************************** Media Inquiries - Width */
+
+
+/* Media Inquiries - Height *******************************************************/
+@media (min-height: 768px) and (max-width: 768px){
+    .avatar__signature {
+        font-size: 1.75em;
+    }
+}
+@media (max-height: 700px) {
+    .avatar__photo {
+        height: 40vh;
+        width: auto;
+    }
+    .avatar__signature {
+        margin-top: 0.8vh;
+        font-size: 1.4em;
+    }
+    .footer__copyright {
+        font-size: 1.1em;
+    }
+    .footer__copyright:lang(ru), .footer__copyright:lang(uk) {
+        font-size: 1em;
+    }
+}
+@media (max-height: 550px) {
+    .avatar__photo {
+        height: 220px;
+        width: 174px;
+    }
+    .avatar__signature {
+        margin-top: 0;
+        font-size: 1.4em;
+    }
+    .avatar__signature:lang(ru) {
+        font-size: 1.3em;
+    }
+    .contacts {
+        font-size: 3.2em;
+    }
+}
+/******************************************************* Media Inquiries - Height */

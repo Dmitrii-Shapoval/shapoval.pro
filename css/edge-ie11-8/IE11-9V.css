@@ -1,0 +1,51 @@
+/* Only IE9 - IE11 **************************************************************/
+@media screen and (min-width:0\0) {
+    .header__title, .header__title:hover, .avatar__signature, .avatar__signature:hover, .footer__copyright {
+        background: none;
+    }
+    /*Icon shift fixed*/
+    .contacts__item {
+        border: 0.019em solid rgba(0, 0, 0, 0.37);
+    }
+    /*Fix for not supporting object-fit: contain;*/
+    .avatar__photo {
+        height: auto;
+        max-width: 209px;
+    }
+    /*Replacing button "Resume" for MS Edge and all version Internet Explorer*/
+    .resume {
+        display: none;
+    }
+    .resume-edge-ie {
+        display: flex;
+    }
+    /*Replacing button "Mail" for MS Edge and all version Internet Explorer*/
+    .mail {
+        display: none;
+    }
+    .mobile-mail {
+        display: flex;
+    }
+    .modal {
+        display: none;
+    }
+    .header__title, .avatar__photo, .avatar__signature, .contacts, .footer, .footer__copyright {
+        animation-delay: 0s;
+    }
+}
+@media screen and (max-width: 620px) and (min-width:0\0){
+    .contacts {
+        min-height: auto;
+        flex-grow: 0.05;
+        align-content: space-around; /* IE */
+    }
+    .avatar {
+        flex-grow: 0.03;
+    }
+}
+@media screen and (max-width: 375px) and (min-width:0\0){
+    .header__title {
+        font-size: 12vw;
+    }
+}
+/************************************************************** Only IE9 - IE11 */

@@ -1,0 +1,30 @@
+body {
+    text-align: center;
+}
+.header__title, .header__title:hover, .avatar__signature, .footer__copyright {
+    background: none;
+}
+.header__title {
+    margin: 2% 0 5%;
+}
+.contacts {
+    width: 100%;
+    padding: 10%;
+}
+.contacts__item {
+    border: 0.019em solid rgba(0, 0, 0, 0.37);
+    display: inline-block;
+    margin: 0 3%;
+}
+.mobile-mail {
+    display: none;
+}
+.resume {
+    display: none;
+}
+.resume-edge-ie {
+    display: inline-block;
+}
+.modal {
+    display: none;
+}

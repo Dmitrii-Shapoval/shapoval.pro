@@ -1,0 +1,383 @@
+@import url('https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@400;700&display=swap');
+
+/* Animate **************************************************************/
+@import url('animations.css');
+
+::-webkit-scrollbar {
+    display: none;  /*For good animation display*/
+}
+/************************************************************** Animate */
+
+/* Specification **************************************************************/
+* {
+    box-sizing: border-box;
+}
+h1, h2, h3, h4 {
+    margin: 0;
+    padding: 0;
+}
+html, body {
+    font-size: 100%;    /*font-size: 16px;*/
+}
+body {
+    min-height: 38.75rem;   /*min-height: 620px;*/
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background-color: black;
+    background: linear-gradient(0deg, #297acf , #000000 55%,  #000000);
+    background: conic-gradient(from 90deg at 50% 48%, #000000, #297acf, #000000 180deg);
+    font-family: 'Roboto','Roboto Condensed', sans-serif;
+    color: #e0dfe2;
+    /*Animations for body*/
+    animation: moveBackground  1.5s 1 ease-in-out 2.5s;
+    /*justify-content: space-between;  !*Without flex-grow*!*/
+}
+/**************************************************************** Specification */
+
+/* Modal ****************************************************************/
+.modal {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    position: fixed;
+    height: 100vh;
+    width: 100%;
+    background-color: black;
+}
+.modal_closed {
+    display: none;
+}
+.modal__txt {
+    /*Parental = font-size: 16px*/
+    background-color: #e0dfe2;
+    background: linear-gradient(180deg, white 33%, rgba(17, 86, 200, 0.34) 66%, #000000);
+    opacity: 0;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-size: 5vw; /*font-size: 100px;*/
+    font-weight: 400;
+    /*Animations for modal*/
+    animation: fadeInUp 2s 1 ease-in-out 0.5s;
+    animation-fill-mode: forwards;
+
+    /*Additional effects*/
+    /*animation: fadeInUp 2s 1 ease-in-out 0.5s, zoomOutUp 2s 1 ease-in-out 2.5s;*/
+}
+.modal__header {
+    /*font-size: 100px; Parental = font-size: 16px*/
+    background-color: #e0dfe2;
+    background: linear-gradient(180deg, white 33%, rgba(17, 86, 200, 0.34) 66%, #000000);
+    opacity: 0;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-size: 5vw;
+    font-weight: 400;
+    margin-bottom: 50px;
+    /*Animations for modal*/
+    animation: fadeInUp 0.5s 1 ease-in 0.2s, zoomOut 1s 1 ease-in-out 1.5s;
+    animation-fill-mode: forwards;
+
+    /*Additional effects*/
+    /*animation: fadeInUp 0.3s 1 ease-in-out, zoomOutUp 1s 1 ease-in-out 1.5s;*/
+}
+/**************************************************************** Modal */
+
+/* Header **********************************************************************/
+.header {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-grow: 1;
+}
+.header__title {
+    /*font-size: 100px; Parental = font-size: 16px*/
+    background-color: #e0dfe2;
+    background: linear-gradient(180deg, white 33%, rgba(17, 86, 200, 0.34) 66%, #000000);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    font-size: 6.250em;
+    font-weight: 400;
+    /*Animations for h1*/
+    animation: fadeInUp 2s 1 ease-in-out 2.5s;
+}
+.header__title:hover {
+    background: linear-gradient(180deg, white 33%, rgba(17, 86, 200, 0.34) 90%, #000000);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    cursor: none;
+}
+/********************************************************************** Header */
+
+/* Main ************************************************************************/
+.main {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-around; /*Internet Explorer*/
+    justify-content: space-evenly;
+    align-items: center;
+    flex-grow: 10;
+}
+.avatar {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    opacity: 0.9;
+    min-height: 230px;
+    min-width: 174px;
+}
+.avatar:hover {
+    cursor: zoom-in;
+    opacity: 1;
+}
+.avatar__photo {
+    width: 10.3125rem;    /*width: 165px;*/
+    height: 13.0625rem;     /*height: 209px;*/
+    object-fit: contain;
+    z-index: 9999;
+    /*For scale in Mozilla*/
+    -moz-user-select: none; user-select: none;
+    /*Animations for img*/
+    animation: zoomIn 2s 1 ease-in-out 2.5s;
+
+    /*Additional effects*/
+    /*animation: zoomIn 1.3s 1 ease-in-out 2.5s;*/  /*For mobile*/
+}
+.avatar__photo:hover {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    -webkit-transform: translate(-50%, -50%); transform: translate(-50%, -50%);
+    width: auto;
+    height: auto;
+    max-width: 100%;
+    max-height: 100vh;
+    box-shadow: 0 0 0 100vw rgba(0, 0, 0, 0.67);
+    cursor: zoom-out;
+
+    /*Additional effects*/
+    /*box-shadow: 0px 4px 20px Dodgerblue , 0 0 0 100vw black;*/
+    /*border: 1px solid Dodgerblue;*/
+    /*box-shadow: 0 0 0 100vw black;*/
+}
+:not(:active) > .avatar__photo:not(:hover), .avatar__photo:active {
+    pointer-events: none;
+}
+.avatar__signature {
+    font-weight: 400;
+    font-size: 1.2em;
+    background-color: #e0dfe2;
+    background: linear-gradient(180deg, white 33%, rgba(17, 86, 200, 0.34) 66%, #000000);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    /*Animations for h2*/
+    animation: zoomInDown 2s 1 ease-in-out 2.5s;
+}
+.avatar__signature:hover {
+    background: linear-gradient(180deg, white 33%, rgba(17, 86, 200, 0.34) 90%, #000000);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    cursor: none;
+}
+/***************************************************/
+.contacts{
+    /*Parental = font-size: 16px*/
+    margin: 0;
+    padding: 0;
+    display: flex;
+    width: 54%;
+    justify-content: space-around;
+    font-size: 3.250em;            /*font-size: 52px;*/
+    /*Animations for ul*/
+    animation: zoomInDown 2s 1 ease-in-out 2.5s;
+}
+.contacts__item {
+    /*Parental = font-size: 52px*/
+    list-style-type: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 0.058em solid rgba(25, 25, 112, 0.16);   /*border: 3px solid rgba(25, 25, 112, 0.16);*/
+    border-radius: 0.135em;        /*border-radius: 7px;*/
+    background: rgba(0, 0, 0, 0.13);
+    height: 1.288em;
+    width: 1.288em;
+    /*Additional effects*/
+    /*box-shadow: 0px 0.077em 0.077em rgba(0, 0, 0, 0.25);*/   /*box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);*/
+}
+.contacts__item:hover {
+    /*Parental = font-size: 52px*/
+    background: rgba(0, 0, 0, 0.37);
+    box-shadow: 0 0.077em 0.077em Dodgerblue;    /*box-shadow: 0px 4px 4px Dodgerblue;*/
+    border: 0.019em solid Dodgerblue;            /*border: 1px solid Dodgerblue;*/
+    /*Additional effects*/
+    /*transition: 0.3s;*/
+}
+.contacts__item:active {
+    box-shadow: none;
+    border: none;
+}
+
+/* Tooltip *************************************************/
+.mail {
+    position: relative;
+    cursor: copy;
+}
+.mail__tooltip {
+    font-size: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    visibility: hidden;
+    opacity: 0.1;
+    max-width: 10.625rem;        /*max-width: 170px;*/
+    background-color: #000000;
+    background: linear-gradient(0deg, #297acf , #000000 55%,  #000000);
+    color: white;
+    border-radius: 0.375rem;     /*border-radius: 6px;*/
+    padding: 0.3125rem 0.625rem;    /*padding: 5px 10px;*/
+    position: absolute;
+    bottom: 125%;
+    right: 0;
+
+    /*Additional effects*/
+    /*text-align: center;*/
+    /*color: Dodgerblue;*/
+}
+.mailing-address_open {
+    visibility: visible;
+    opacity: 1;
+    transition: opacity 2s;
+}
+/* Alternative on hover css *******/
+/*.mail:hover .mail__tooltip {*/
+/*    visibility: visible;*/
+/*    opacity: 1;*/
+/*    transition: 3s;*/
+/*}*/
+/******* Alternative on hover css */
+.mailing-address__txt {
+    width: 9.875rem;    /*width: 158px;*/
+    padding: 0 0.1875rem;    /*padding: 0 3px;*/
+    border: 0.0625rem solid Dodgerblue;   /*border: 1px solid Dodgerblue;*/
+    color: black;
+}
+.mailing-address__tooltip {
+    margin-top: 0.25rem;    /*margin-top: 4px;*/
+}
+.mail .mail__tooltip::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    right: 15%;
+    margin-left: -0.4375rem;    /*margin-left: -7px;*/
+    border-width: 0.4375rem;    /*border-width: 7px;*/
+    border-style: solid;
+    border-color: Dodgerblue transparent transparent transparent;
+    opacity: 0.8;
+}
+/************************************************** Tooltip */
+
+.link {
+    /*Parental = font-size: 52px*/
+    text-decoration: none;
+    font-family: 'Font Awesome 5 Free', 'Font Awesome 5 Brands';
+    font-weight: 900;
+    color: Dodgerblue;
+    font-size: 1em;
+}
+.link:active {
+    color: black;
+    font-size: 0.9em;
+    cursor: wait;
+}
+.mail__icon {            /*Reset Button Styles for Computer Version*/
+    margin: 0;
+    padding: 0;
+    border: 0.058em solid rgba(25, 25, 112, 0.16);   /*border: 3px solid rgba(25, 25, 112, 0.16);*/
+    border-radius: 0.135em;      /*border-radius: 7px;*/
+    background: none;
+    cursor: copy;
+    height: 1.288em;
+    width: 1.288em;
+}
+.skype__icon::before {
+    content: '\f17e';
+    padding: 0 0.2em;           /*Scope Extension*/
+}
+.telegram__icon::before {
+    content: '\f3fe';
+    padding: 0 0.2em;           /*Scope Extension*/
+}
+.facebook__icon::before {
+    content: '\f39e';
+    font-size: 0.931em;
+    padding: 0 0.37em;
+}
+
+.linkedin__icon::before {
+    content: '\f0e1';
+    font-size: 0.941em;
+    padding: 0 0.25em;
+    width: 100%;
+}
+.resume__icon::before {
+    content: '\f2bb';
+    font-size: 0.915em;
+    padding: 0 0.14em 0.05em;
+}
+/*Button Styles for Computer Version*/
+.mail__icon::before {
+    content: '\f0e0';
+    font-size: 1.018em;
+    cursor: copy;
+}
+/*Replacing a link to mail*/
+.mobile-mail {
+    display: none;
+}
+.mobile-mail__icon::before {
+    content: '\f0e0';
+    font-size: 1.018em;
+    padding: 0 0.123em;
+    cursor: pointer;
+}
+
+/*Button "Resume" for MS Edge and all version Internet Explorer*/
+.resume-edge-ie__icon::before {
+    content: '\f2bb';
+    font-size: 0.915em;
+    padding: 0 0.14em 0.05em;
+}
+.resume-edge-ie {
+    display: none;
+}
+/************************************************************************ Main */
+
+/* Footer **********************************************************************/
+.footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-grow: 0;
+    height: 50px;
+    background: linear-gradient(180deg, rgba(66, 115, 192, -0.9) 7%, rgba(13, 47, 94, 17.8) 86%);
+    /*Animations for footer*/
+    animation: fadeIn 2s 1 ease-in-out 2.5s;
+}
+.footer__copyright {
+    font-weight: 400;
+    background-color: #e0dfe2;
+    background: linear-gradient(180deg, white 33%, rgba(17, 86, 200, 0.34) 66%, #c5d0d6);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    /*Animations for footer*/
+    animation: bounceInUp 2s 1 ease-in-out 2.5s;
+
+    /*Additional effects*/
+    /*background: linear-gradient(180deg, white 33%, rgba(17, 86, 200, 0.34) 66%, #000000);*/
+}
+/********************************************************************** Footer */

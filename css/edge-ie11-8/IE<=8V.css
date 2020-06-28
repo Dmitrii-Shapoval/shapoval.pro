@@ -1,0 +1,71 @@
+.avatar__photo {
+    height: auto;
+    max-width: 209px;
+}
+.avatar__photo:hover {
+    top: auto;
+    left: auto;
+    max-height: 600px;
+    position: static;
+}
+.resume {
+    display: none;
+}
+.resume-edge-ie {
+    display: inline-block;
+}
+.contacts__item {
+    border: 0.019em solid #191970;
+    opacity: 0.16;
+    border-radius: 0.135em;
+}
+.contacts__item:hover {
+    border: 0.019em solid Dodgerblue;
+    background: #000000;
+    opacity: 0.37;
+}
+.mail__icon {
+    border: none;               /*For button*/
+}
+.skype__icon:before {
+    content: '\f17e';
+    padding: 0 0.2em;           /*Scope Extension*/
+}
+.telegram__icon:before {
+    content: '\f3fe';
+    padding: 0 0.2em;           /*Scope Extension*/
+}
+.facebook__icon:before {
+    content: '\f39e';
+    font-size: 0.931em;
+    padding: 0 0.37em;
+}
+.linkedin__icon:before {
+    content: '\f0e1';
+    font-size: 0.941em;
+    padding: 0 0.25em;
+    width: 100%;
+}
+.resume-edge-ie__icon:before {
+    content: '\f2bb';
+    font-size: 0.915em;
+    padding: 0 0.14em 0.05em;
+}
+.mail__icon:before {
+    content: '\f0e0';
+    font-size: 1.018em;
+    cursor: copy;
+}
+.mail__tooltip {
+    font-size: 16px;
+}
+/*Replacing a link to mail*/
+.mobile-mail {
+    display: none;
+}
+.mobile-mail__icon:before {
+    content: '\f0e0';
+    font-size: 1.018em;
+    padding: 0 0.123em;
+    cursor: pointer;
+}

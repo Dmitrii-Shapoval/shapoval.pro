@@ -1,0 +1,18 @@
+/* Edge ~ 44 **************************************************************/
+/*Fixed incorrect display of value justify-content: space-evenly*/
+_:-ms-lang(en), _:-webkit-full-screen, .main {
+    justify-content: space-around; /*edge*/
+}
+/*Replacing button "Resume" for MS Edge*/
+_:-ms-lang(en), _:-webkit-full-screen, .resume {
+    display: none;
+}
+_:-ms-lang(en), _:-webkit-full-screen, .resume-edge-ie {
+    display: flex;
+}
+@media (max-width: 620px) {
+    _:-ms-lang(en), _:-webkit-full-screen, .contacts {
+        align-content: space-around; /*edge*/
+    }
+}
+/************************************************************** Edge ~ 44 */

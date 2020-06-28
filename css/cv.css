@@ -1,0 +1,200 @@
+@import "animations.css";
+.page {
+    animation: zoomIn 1s 1 ease-in-out;
+    /*animation: fadeIn 1s 1 ease-in-out;*/
+}
+
+/*Fixed a white frame on the Windows OS**************/
+.pdfViewer .page {
+    background: none;
+}
+/**************Fixed a white frame on the Windows OS*/
+
+/*body class="loadingInProgress" for download pdf*/
+.loadingInProgress {
+background-color: black;
+background: linear-gradient(0deg, #297acf , #000000 55%,  #000000);
+}
+/*loadingBar*/
+#loadingBar {
+background: none;
+border-bottom: none;
+}
+#loadingBar .progress {
+background-color: Dodgerblue;
+background: linear-gradient(90deg, #000000 50%, #297ACF);
+}
+
+/*.toolbar-color - private class for 'header'*/
+#toolbarViewer {
+background-image: none;  /*insurance*/
+background-color: #0c152a;
+background: linear-gradient(90deg, #000000 21%, #297ACF);
+}
+#toolbarViewer:hover {
+box-shadow: 0 4px 14px Dodgerblue;
+border: 1px solid Dodgerblue;
+}
+
+/*General background-color*/
+.container-color {
+    background-color: white; /*test*/
+    background-color: black; /*insurance*/
+    background: linear-gradient(0deg, #297acf , #000000 55%,  #000000); /*insurance*/
+    background: conic-gradient(from 90deg at 50% 49%, #000000, #297acf, #000000 180deg); /*insurance*/
+    background-image: radial-gradient(at 50% 68%, #297acf -2%, rgba(0, 0, 0, 0) 60%), conic-gradient(from 90deg at 50% 68%, #000000, #297acf, #000000 180deg);
+
+    /*Additional effects*/
+    /*background: radial-gradient(circle at 50% 60%, #297acf, #1c5893 20%, #000000 70%);*/
+    /*background: radial-gradient(ellipse at top, #000000, transparent), radial-gradient(ellipse at bottom, #297acf, transparent);*/
+    /*background-image: linear-gradient(to right, #000000 20%, #297acf 50%, #000000 80%), linear-gradient(to top, #000000 5%, #297acf 50%, #000000 95%);*/
+    /*background-image: radial-gradient(#297acf 1%, rgba(0, 0, 0, 0) 40%), conic-gradient(from 90deg at 50% 49%, #000000, #297acf, #000000 180deg);*/
+    /*background-image: radial-gradient(#297acf -2%, rgba(0, 0, 0, 0) 70%), conic-gradient(from 90deg at 50% 50%, #000000, #297acf, #000000 180deg);*/
+    /*background-blend-mode: lighten;*/
+    /*background: radial-gradient(#297ACF, #000000);*/
+    /*background: radial-gradient(#000000, #297ACF);*/
+    /*background: radial-gradient(#000000 50%, rgba(0, 0, 0, 0) 50% );*/
+    /*background: radial-gradient(circle at 100%, #333, #333 50%, #eee 75%, #333 75%);*/
+}
+@media (max-width: 768px) {
+    .container-color {
+        background: linear-gradient(0deg, #297acf , #000000 50%,  #000000);
+    }
+}
+
+/*  Scalebar: background-color scale*/
+.dropdownToolbarButton > select > option {
+background-image: none;  /*insurance*/
+background-color: rgb(21, 47, 76);
+}
+/*#errorWrapper*/
+#errorWrapper {
+background-color: #ec000099;
+}
+/*not find color*/
+#findInput.notFound {
+background-color: #ec000099;
+}
+.toolbarField:focus {
+background-color: #0c152a;
+}
+/********************************/
+
+
+/* Custom webkit-scrollbar *********************************/
+::-webkit-scrollbar {
+    width: 15px;
+}
+::-webkit-scrollbar-track { /*the track (progress bar) of the scrollbar*/
+    background: none;   /*insurance*/
+}
+::-webkit-scrollbar-thumb {
+    background-color: Dodgerblue;
+    background: linear-gradient(90deg, rgba(0, 0, 0, 0.14) 50%, #297ACF);
+}
+/*cross*/
+::-webkit-scrollbar-corner {
+    background: black;
+    background: conic-gradient(from 90deg at 99% 0%, #000000, Dodgerblue, #000000 180deg);
+}
+::-webkit-scrollbar-thumb:hover {
+    box-shadow: 0 4px 14px Dodgerblue;
+    border: 1px solid Dodgerblue;
+}
+::-webkit-scrollbar-thumb:active {
+    box-shadow: none;
+}
+@media (max-width: 840px) {
+    ::-webkit-scrollbar {
+        display: none;
+    }
+}
+/********************************** Custom webkit-scrollbar */
+
+.findbar, .secondaryToolbar {
+    background-image: none;  /*insurance*/
+    background-color: #297acf;
+    background: linear-gradient(0deg, #000000 21%, #297ACF);
+}
+.findbar:hover, .secondaryToolbar:hover {
+    box-shadow: 0 4px 14px Dodgerblue;
+    border: 1px solid Dodgerblue;
+}
+.toolbarButton:hover, .toolbarButton:focus, .dropdownToolbarButton, .overlayButton, .secondaryToolbarButton:hover, .secondaryToolbarButton:focus {
+    box-shadow: 0 4px 14px Dodgerblue;
+    border: 1px solid Dodgerblue;
+}
+/*Аrrow none*/
+.doorHangerRight:before, .doorHanger:before {
+    display: none;
+}
+.doorHangerRight:after, .doorHanger:after {
+    border-bottom-color: Dodgerblue;
+    opacity: 0.7;
+}
+
+
+/* Left Sidebar *********************************/
+#sidebarContainer:hover {
+    box-shadow: 0 4px 14px Dodgerblue;
+    border: 1px solid Dodgerblue;
+}
+#toolbarSidebar {
+    background-image: none;  /*insurance*/
+    background-color: black;
+    background: linear-gradient(0deg, #000000 15%, #297ACF);
+}
+.splitToolbarButton > .toolbarButton:hover, .splitToolbarButton > .toolbarButton:focus, .splitToolbarButton.toggled > .toolbarButton, .toolbarButton.textButton {
+    background-color: rgba(0, 0, 0, 0.7);
+    box-shadow: 0 4px 14px Dodgerblue;
+    border: 1px solid Dodgerblue;
+}
+#thumbnailView, #outlineView {
+    background: linear-gradient(180deg, #000000 21%, #297ACF);
+}
+.thumbnail > .thumbnailSelectionRing {
+    padding: 0;  /*Not padding micro PDF*/
+}
+
+.thumbnail.selected > .thumbnailSelectionRing {
+    padding: 0;
+    background: none;
+    box-shadow: 0 4px 14px Dodgerblue;
+    border: 2px solid Dodgerblue;   /*Border for selected micro PDF*/
+}
+a:focus > .thumbnail > .thumbnailSelectionRing, .thumbnail:hover > .thumbnailSelectionRing {
+    padding: 0;
+    background: none;
+    box-shadow: 0 4px 14px Dodgerblue;
+    border: 2px solid Dodgerblue;
+}
+@media (max-width: 840px) {
+    /*Opacity shadow for mobile*/
+    #thumbnailView, #outlineView {
+    background: rgba(0, 0, 0, 0.05);
+}
+    /*Little shadow for mobile*/
+    #toolbarSidebar {
+    background: linear-gradient(0deg, #000000 60%, #297ACF);
+}
+}
+/********************************* Left Sidebar */
+
+/* Modal window: document information and print ******************/
+#overlayContainer > .container > .dialog {
+    background-image: none;    /*insurance*/
+    background-color: black;
+    background: linear-gradient(0deg, #000000 21%, #297ACF);
+}
+#overlayContainer > .container > .dialog:hover {
+    box-shadow: 0 4px 14px Dodgerblue;
+    border: 1px solid Dodgerblue;
+}
+
+/* Shadow color for link pdf document - hover ********************/
+.annotationLayer .linkAnnotation > a:hover, .annotationLayer .buttonWidgetAnnotation.pushButton > a:hover {
+    opacity: 1;
+    background: none;
+    color: white;
+    box-shadow: inset 0 -3px 9px -1px Dodgerblue;
+}
