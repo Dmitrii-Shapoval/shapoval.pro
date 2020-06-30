@@ -7,3 +7,12 @@ ExpiresByType image/gif "access plus 5 days"
 ExpiresByType image/jpeg "access plus 5 days"
 ExpiresByType image/png "access plus 5 days"
 </IfModule>
+
+#RewriteEngine on
+#RewriteBase /
+#RewriteCond %{THE_REQUEST} ^[A-Z]{3,9}\ /([^.]+)\.html\ HTTP
+#RewriteRule ^([^.]+)\.html$ shapoval.pro/$1 [R=301,L]
+#RewriteCond %{REQUEST_URI} !(\.[^./]+)$
+#RewriteCond %{REQUEST_fileNAME} !-d
+#RewriteCond %{REQUEST_fileNAME} !-f
+#RewriteRule (.*) /$1.html
