@@ -1,8 +1,8 @@
 User-agent: *
-#Disallow: /
 Allow: /
 Disallow: /libraries/
 Disallow: /js/
 Disallow: cv.html
-
+Sitemap: https://shapoval.pro/sitemap.xml
 Host: https://shapoval.pro
+#Disallow: /
