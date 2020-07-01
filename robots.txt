@@ -1,8 +1,8 @@
 User-agent: *
-Disallow: /
-
-#Disallow: /libraries/
-#Disallow: /js/
-#Disallow: cv.html
+#Disallow: /
+Allow: /
+Disallow: /libraries/
+Disallow: /js/
+Disallow: cv.html
 
 Host: https://shapoval.pro
