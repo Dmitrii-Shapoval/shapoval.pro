@@ -1,8 +1,8 @@
 User-agent: *
 Allow: /
-Disallow: /libraries/
-Disallow: /js/
+Disallow: /libraries/pdfjs-2.4/
 Disallow: cv.html
 Sitemap: https://shapoval.pro/sitemap.xml
 Host: https://shapoval.pro
 #Disallow: /
+#Disallow: /js/
