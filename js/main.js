@@ -18,6 +18,7 @@ const mailingAddress = document.querySelector('.mailing-address');
 const mail = document.querySelector('.mail');
 mail.addEventListener('mouseover', () => {
     mailingAddress.classList.add('mailing-address_open');
+    mail.classList.add('mail_dedicated');  // when hovering, the help window does not move. Correction.
 });
 // ...................................................Show hover window
 // Hide window when clicking outside the are............................
@@ -27,6 +28,7 @@ function outsideEvtListener(e) {
         return; // сlick inside
     }
     mailingAddress.classList.remove('mailing-address_open'); // Hide the menus.
+    mail.classList.remove('mail_dedicated');   // when hovering, the help window does not move. Correction.
 }
 // ............................Hide window when clicking outside the are
 

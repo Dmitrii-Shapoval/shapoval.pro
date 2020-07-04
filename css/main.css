@@ -228,6 +228,13 @@ body {
     position: relative;
     cursor: copy;
 }
+.mail_dedicated {   /*when hovering, the help window does not move. Correction.*/
+    border: 0.019em solid rgba(25, 25, 112, 0.16);
+    /*Additional effects*/
+    /*background: rgba(0, 0, 0, 0.37);*/
+    /*box-shadow: 0 0.077em 0.077em Dodgerblue;*/
+    /*border: 0.019em solid Dodgerblue;*/
+}
 .mail__tooltip {
     font-size: 1rem;
     display: flex;
@@ -262,7 +269,7 @@ body {
 /*}*/
 /******* Alternative on hover css */
 .mailing-address__txt {
-    width: 9.875rem;    /*width: 158px;*/
+    width: 9.900rem;    /*width: 158px;*/
     padding: 0 0.1875rem;    /*padding: 0 3px;*/
     border: 0.0625rem solid Dodgerblue;   /*border: 1px solid Dodgerblue;*/
     color: black;
