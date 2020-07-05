@@ -12,28 +12,34 @@
 
 /*body class="loadingInProgress" for download pdf*/
 .loadingInProgress {
-background-color: black;
-background: linear-gradient(0deg, #297acf , #000000 55%,  #000000);
+    background-color: black;
+    background: linear-gradient(0deg, #297acf , #000000 55%,  #000000);
 }
 /*loadingBar*/
 #loadingBar {
-background: none;
-border-bottom: none;
+    background: none;
+    border-bottom: none;
 }
 #loadingBar .progress {
-background-color: Dodgerblue;
-background: linear-gradient(90deg, #000000 50%, #297ACF);
+    background-color: Dodgerblue;
+    background: linear-gradient(90deg, #000000 50%, #297ACF);
 }
 
 /*.toolbar-color - private class for 'header'*/
 #toolbarViewer {
-background-image: none;  /*insurance*/
-background-color: #0c152a;
-background: linear-gradient(90deg, #000000 21%, #297ACF);
+    background-image: none;  /*insurance*/
+    background-color: #0c152a;
+    background: linear-gradient(90deg, #000000 21%, #297ACF);
+    /*when hovering, the help window does not move. Correction.*/
+    border: 1px solid transparent;
+    border-left: 1px solid black;
+    transition: 2.5s;
 }
 #toolbarViewer:hover {
-box-shadow: 0 4px 14px Dodgerblue;
-border: 1px solid Dodgerblue;
+    box-shadow: 0 4px 14px Dodgerblue;
+    border: 1px solid Dodgerblue;
+    /*when hovering, the help window does not move. Correction.*/
+    transition: 1s;
 }
 
 /*General background-color*/
@@ -64,19 +70,19 @@ border: 1px solid Dodgerblue;
 
 /*  Scalebar: background-color scale*/
 .dropdownToolbarButton > select > option {
-background-image: none;  /*insurance*/
-background-color: rgb(21, 47, 76);
+    background-image: none;  /*insurance*/
+    background-color: rgb(21, 47, 76);
 }
 /*#errorWrapper*/
 #errorWrapper {
-background-color: #ec000099;
+    background-color: #ec000099;
 }
 /*not find color*/
 #findInput.notFound {
-background-color: #ec000099;
+    background-color: #ec000099;
 }
 .toolbarField:focus {
-background-color: #0c152a;
+    background-color: #0c152a;
 }
 /********************************/
 
@@ -92,14 +98,14 @@ background-color: #0c152a;
     background-color: Dodgerblue;
     background: linear-gradient(90deg, rgba(0, 0, 0, 0.14) 50%, #297ACF);
 }
+::-webkit-scrollbar-thumb:hover {
+    box-shadow: 0 4px 14px Dodgerblue;
+    border: 1px solid Dodgerblue;
+}
 /*cross*/
 ::-webkit-scrollbar-corner {
     background: black;
     background: conic-gradient(from 90deg at 99% 0%, #000000, Dodgerblue, #000000 180deg);
-}
-::-webkit-scrollbar-thumb:hover {
-    box-shadow: 0 4px 14px Dodgerblue;
-    border: 1px solid Dodgerblue;
 }
 ::-webkit-scrollbar-thumb:active {
     box-shadow: none;
@@ -135,9 +141,13 @@ background-color: #0c152a;
 
 
 /* Left Sidebar *********************************/
+#sidebarContainer {  /*when hovering, the help window does not move. Correction.*/
+    border: 1px solid transparent;
+    border-left: 1px solid black;
+}
 #sidebarContainer:hover {
-    box-shadow: 0 4px 14px Dodgerblue;
     border: 1px solid Dodgerblue;
+    box-shadow: 0 4px 14px Dodgerblue;
 }
 #toolbarSidebar {
     background-image: none;  /*insurance*/
@@ -148,12 +158,15 @@ background-color: #0c152a;
     background-color: rgba(0, 0, 0, 0.7);
     box-shadow: 0 4px 14px Dodgerblue;
     border: 1px solid Dodgerblue;
+    transition: 0.3s;
 }
 #thumbnailView, #outlineView {
     background: linear-gradient(180deg, #000000 21%, #297ACF);
 }
 .thumbnail > .thumbnailSelectionRing {
     padding: 0;  /*Not padding micro PDF*/
+    border: 2px solid transparent;  /*when hovering, the help window does not move. Correction.*/
+    transition: 0.3s;
 }
 
 .thumbnail.selected > .thumbnailSelectionRing {
@@ -167,6 +180,7 @@ a:focus > .thumbnail > .thumbnailSelectionRing, .thumbnail:hover > .thumbnailSel
     background: none;
     box-shadow: 0 4px 14px Dodgerblue;
     border: 2px solid Dodgerblue;
+    transition: 0.3s;
 }
 @media (max-width: 840px) {
     /*Opacity shadow for mobile*/
@@ -185,10 +199,12 @@ a:focus > .thumbnail > .thumbnailSelectionRing, .thumbnail:hover > .thumbnailSel
     background-image: none;    /*insurance*/
     background-color: black;
     background: linear-gradient(0deg, #000000 21%, #297ACF);
+    transition: 0.3s;
 }
 #overlayContainer > .container > .dialog:hover {
     box-shadow: 0 4px 14px Dodgerblue;
     border: 1px solid Dodgerblue;
+    transition: 0.3s;
 }
 
 /* Shadow color for link pdf document - hover ********************/
@@ -197,4 +213,5 @@ a:focus > .thumbnail > .thumbnailSelectionRing, .thumbnail:hover > .thumbnailSel
     background: none;
     color: white;
     box-shadow: inset 0 -3px 9px -1px Dodgerblue;
+    transition: 0.2s;
 }
