@@ -19,88 +19,156 @@
     <link rel="icon" type="image/png" sizes="32x32" href="favicons/favicon-32x32.png">
     <link rel="icon" type="image/png" sizes="16x16" href="favicons/favicon-16x16.png">
     <link rel="manifest" href="favicons/site.webmanifest">
-    <link rel="stylesheet" type="text/css" href="libraries/normalize/normalize.min.css">
-    <link rel="stylesheet" type="text/css" href="libraries/fontawesome/all.min.css">
-    <link rel="stylesheet" type="text/css" href="css/main.css">
-    <link rel="stylesheet" type="text/css" href="css/media.css">
-<!--    Style for MS Edge and IE11-8-->
-    <link rel="stylesheet" type="text/css" href="css/edge-ie11-8/Edge~44V.css">
-    <link rel="stylesheet" type="text/css" href="css/edge-ie11-8/IE11-9V.css">
-    <!--IE < 10 version-->
-    <!--[if IE]><link rel="stylesheet" type="text/css" href="css/edge-ie11-8/IE%3C10V.css"><![endif]-->
-    <!--[if lte IE 8]><link rel="stylesheet" type="text/css" href="css/edge-ie11-8/IE%3C=8V.css"><![endif]-->
+
+    <!-- Theme: applied before first paint to avoid a flash of the wrong theme. -->
+    <meta name="color-scheme" content="dark light">
+    <meta name="theme-color" content="#06080c">
+    <script>
+        (function () {
+            try { var t = localStorage.getItem('theme'); } catch (e) {}
+            if (t !== 'light' && t !== 'dark') t = matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+            document.documentElement.dataset.theme = t;
+        })();
+    </script>
+    <link rel="preload" as="image" href="images/avatar-320.webp" imagesrcset="images/avatar-320.webp 320w, images/avatar-640.webp 640w" imagesizes="(min-width: 860px) 260px, 200px" fetchpriority="high">
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<div class="modal">
-    <h4 class="modal__header">Hello!</h4>
-    <p class="modal__txt">Welcome to my business card site.</p>
-</div>
-<header class="header">
-    <h1 class="header__title">Dmitrii Shapoval</h1>
-</header>
-<main class="main">
-    <div class="main__avatar avatar">
-        <img src="images/DmitriiShapoval-avatar.jpg" alt="Dmitrii Shapoval" class="avatar__photo">
-<!--        <img src="images/DmitriiShapoval-avatar2x(360x456).jpg" alt="Dmitrii Shapoval" class="avatar__photo360x456">-->
-        <h2 class="avatar__signature">Web - developer</h2>
-    </div>
-    <ul class="main__сontacts contacts">
-        <li class="contacts__item skype">
-            <a href="https://join.skype.com/invite/e6t70hKPwMNe" class="skype__icon link"></a>
-        </li>
-        <li class="contacts__item telegram">
-            <a href="https://t.me/Dmitrii_Shapoval" class="telegram__icon link"></a>
-        </li>
-        <li class="contacts__item facebook">
-            <a href="https://www.facebook.com/www.shapoval.pro" class="facebook__icon link"></a>
-        </li>
-        <li class="contacts__item linkedin">
-            <a href="http://www.linkedin.com/in/dmitrii-shapoval/" class="linkedin__icon link"></a>
-        </li>
-        <li class="contacts__item resume">
-            <a href="cv" class="resume__icon link" target="_blank" title="Resume"></a>
-        </li>
-        <!--Button "Resume" for MS Edge and all version Internet Explorer        -->
-        <li class="contacts__item resume-edge-ie">
-            <a href="cv.pdf" class="resume-edge-ie__icon link" target="_blank" title="Resume"></a>
-        </li>
-        <!--        Button "Resume" for MS Edge and all version Internet Explorer-->
-        <li class="contacts__item mail  mail_dedicated">
-            <button class="mail__icon link"></button> <!-- title="dmitrii@shapoval.pro  ➤  Click to copy ✉" -->
-            <div class="mail__tooltip mailing-address" id="mailTooltip" tabindex="0" title="Or press Ctrl+С (⌘+C for Mac)">
-                <input class="mailing-address__txt" type="text" id="mailingAddressTxt" value="dmitrii@shapoval.pro">
-                <span class="mailing-address__tooltip" id="MailingAddressTooltip">➤ Click to copy ✉</span>
-            </div>
-        </li>
-<!--        Replacing a link to mail-->
-        <li class="contacts__item mobile-mail">
-            <a href="mailto:dmitrii@shapoval.pro" class="mobile-mail__icon link"></a>
-        </li>
-    </ul>
-</main>
-<footer class="footer">
-    <h3 class="footer__copyright copyright"> © Dmitrii Shapoval 2020 - <span class="copyright__this-year">2020</span></h3>
-</footer>
-<script async src="js/main.js"></script>
-<!-- Global site tag (gtag.js) - Google Analytics -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=UA-171038112-1"></script>
-<script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
+<!-- Inline SVG icon sprite: no icon fonts, no extra requests. -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <defs>
+        <symbol id="i-telegram" viewBox="0 0 24 24"><path d="M21.5 3.5 2.8 10.7c-.9.4-.9 1.4.1 1.7l4.7 1.5 1.8 5.6c.2.7 1.1.9 1.6.4l2.6-2.4 4.9 3.6c.6.4 1.4.1 1.6-.6l3.2-15.4c.2-.9-.7-1.6-1.6-1.2Z"/><path d="m7.6 13.9 9.9-6.4-7.6 7.4"/></symbol>
+        <symbol id="i-linkedin" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="4"/><path d="M8 10.5V17M8 7.2v.1M12 17v-6.5M12 13.5c0-1.9 1.2-3 2.7-3s2.3 1 2.3 2.9V17"/></symbol>
+        <symbol id="i-facebook" viewBox="0 0 24 24"><path d="M17 3h-2.6A4.4 4.4 0 0 0 10 7.4V10H7v4h3v7h4v-7h3l.6-4H14V7.8c0-.5.4-.8.8-.8H17Z"/></symbol>
+        <symbol id="i-mail" viewBox="0 0 24 24"><rect x="2.5" y="4.5" width="19" height="15" rx="3"/><path d="m3.5 7 8.5 6 8.5-6"/></symbol>
+        <symbol id="i-file" viewBox="0 0 24 24"><path d="M14 2.8H7A2.2 2.2 0 0 0 4.8 5v14A2.2 2.2 0 0 0 7 21.2h10a2.2 2.2 0 0 0 2.2-2.2V8Z"/><path d="M14 2.8V8h5.2M8.5 13h7M8.5 16.5h7M8.5 9.5h2.5"/></symbol>
+        <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></symbol>
+        <symbol id="i-moon" viewBox="0 0 24 24"><path d="M20.5 14.1A8.5 8.5 0 1 1 9.9 3.5a6.6 6.6 0 0 0 10.6 10.6Z"/></symbol>
+        <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
+        <symbol id="i-minus" viewBox="0 0 24 24"><path d="M5 12h14"/></symbol>
+        <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 3.5v12M7 10.5l5 5 5-5M4.5 20.5h15"/></symbol>
+        <symbol id="i-external" viewBox="0 0 24 24"><path d="M14 4h6v6M20 4l-9 9M18 14v4a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4"/></symbol>
+        <symbol id="i-close" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></symbol>
+        <symbol id="i-history" viewBox="0 0 24 24"><path d="M3.5 12a8.5 8.5 0 1 0 2.5-6"/><path d="M3 4v4.5h4.5M12 7.5V12l3 2"/></symbol>
+        <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7.5"/></symbol>
+    </defs>
+</svg>
 
-    gtag('config', 'UA-171038112-1');
-</script>
-<!-- Hotjar Tracking Code for shapoval.pro -->
+<a class="skip-link" href="#main">Skip to content</a>
+
+<!-- Decorative background: grid + two drifting glow orbs (transform-only animation). -->
+<div class="backdrop" aria-hidden="true">
+    <div class="backdrop__grid"></div>
+    <div class="backdrop__orb backdrop__orb--a"></div>
+    <div class="backdrop__orb backdrop__orb--b"></div>
+</div>
+
+<header class="topbar">
+    <a class="brand" href="/" aria-label="shapoval.pro — home">
+        <span class="brand__mark" aria-hidden="true">DS</span>
+        <span class="brand__name">shapoval<span class="brand__tld">.pro</span></span>
+    </a>
+    <button class="icon-btn theme-toggle" type="button" data-theme-toggle aria-label="Switch theme">
+        <svg class="icon icon--sun" aria-hidden="true"><use href="#i-sun"></use></svg>
+        <svg class="icon icon--moon" aria-hidden="true"><use href="#i-moon"></use></svg>
+    </button>
+</header>
+
+<main class="main" id="main">
+    <section class="card" aria-labelledby="name">
+        <div class="avatar reveal" style="--i:0">
+            <div class="avatar__frame">
+                <picture>
+                    <source type="image/webp" srcset="images/avatar-320.webp 320w, images/avatar-640.webp 640w" sizes="(min-width: 860px) 260px, 200px">
+                    <img src="images/DmitriiShapoval-avatar.jpg" alt="Dmitrii Shapoval" class="avatar__photo" width="832" height="1181" fetchpriority="high" decoding="async">
+                </picture>
+            </div>
+            <span class="avatar__status" aria-hidden="true"></span>
+        </div>
+
+        <div class="card__body">
+            <p class="greeting reveal" style="--i:1">
+                <span class="greeting__prompt" aria-hidden="true">&gt;_</span>
+                <span>Hello! Welcome to my business card site.</span>
+            </p>
+            <h1 class="title reveal" id="name" style="--i:2">Dmitrii Shapoval</h1>
+            <h2 class="subtitle reveal" style="--i:3">Web - developer</h2>
+
+            <nav class="contacts reveal" style="--i:4" aria-label="Contacts">
+                <ul class="contacts__list">
+                    <li>
+                        <a class="contact" href="https://t.me/Dmitrii_Shapoval" target="_blank" rel="noopener me" aria-label="Telegram">
+                            <span class="contact__icon"><svg class="icon" aria-hidden="true"><use href="#i-telegram"></use></svg></span>
+                            <span class="contact__label">Telegram</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="contact" href="https://www.linkedin.com/in/dmitrii-shapoval/" target="_blank" rel="noopener me" aria-label="LinkedIn">
+                            <span class="contact__icon"><svg class="icon" aria-hidden="true"><use href="#i-linkedin"></use></svg></span>
+                            <span class="contact__label">LinkedIn</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a class="contact" href="https://www.facebook.com/www.shapoval.pro" target="_blank" rel="noopener me" aria-label="Facebook">
+                            <span class="contact__icon"><svg class="icon" aria-hidden="true"><use href="#i-facebook"></use></svg></span>
+                            <span class="contact__label">Facebook</span>
+                        </a>
+                    </li>
+                    <li>
+                        <!-- Click copies the address (see script.js); without JS it is a plain mailto link. -->
+                        <a class="contact" href="mailto:dmitrii@shapoval.pro" data-copy-email="dmitrii@shapoval.pro" aria-label="Email dmitrii@shapoval.pro (click to copy)" title="dmitrii@shapoval.pro — click to copy">
+                            <span class="contact__icon"><svg class="icon" aria-hidden="true"><use href="#i-mail"></use></svg></span>
+                            <span class="contact__label">Email</span>
+                        </a>
+                    </li>
+                    <li>
+                        <!-- Opens the built-in viewer (script.js); falls back to the /cv page. -->
+                        <a class="contact contact--accent" href="cv" data-open-cv aria-label="Resume" title="Resume">
+                            <span class="contact__icon"><svg class="icon" aria-hidden="true"><use href="#i-file"></use></svg></span>
+                            <span class="contact__label">Resume</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </section>
+</main>
+
+<footer class="footer">
+    <h3 class="footer__copyright copyright"> © Dmitrii Shapoval 2020 - <span class="copyright__this-year">2026</span></h3>
+    <a class="legacy-link" href="legacy/">
+        <svg class="icon" aria-hidden="true"><use href="#i-history"></use></svg>
+        <span>Back to the classic 2020 version</span>
+    </a>
+</footer>
+
+<!-- Resume viewer (filled on demand by viewer.js) -->
+<dialog class="cv-dialog" id="cvDialog" aria-label="Resume — Dmitrii Shapoval">
+    <div class="cv-dialog__inner" data-cv-mount></div>
+</dialog>
+
+<!-- Toast notification -->
+<div class="toast" role="status" aria-live="polite" data-toast>
+    <svg class="icon" aria-hidden="true"><use href="#i-check"></use></svg>
+    <span data-toast-text></span>
+</div>
+
+<script type="module" src="script.js"></script>
+
+<!-- Hotjar Tracking Code for shapoval.pro (deferred until the page is idle, to keep Core Web Vitals clean) -->
 <script>
-    (function(h,o,t,j,a,r){
-        h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
-        h._hjSettings={hjid:1882045,hjsv:6};
-        a=o.getElementsByTagName('head')[0];
-        r=o.createElement('script');r.async=1;
-        r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
-        a.appendChild(r);
-    })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
+    addEventListener('load', function () {
+        setTimeout(function () {
+            (function(h,o,t,j,a,r){
+                h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
+                h._hjSettings={hjid:1882045,hjsv:6};
+                a=o.getElementsByTagName('head')[0];
+                r=o.createElement('script');r.async=1;
+                r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
+                a.appendChild(r);
+            })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
+        }, 2500);
+    });
 </script>
 </body>
 </html>
