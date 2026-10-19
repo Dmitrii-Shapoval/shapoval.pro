@@ -3491,7 +3491,7 @@ const defaultOptions = {
     kind: OptionKind.VIEWER + OptionKind.PREFERENCE
   },
   defaultUrl: {
-    value: "cv.pdf",
+    value: "../cv.pdf",
     kind: OptionKind.VIEWER
   },
   defaultZoomValue: {
