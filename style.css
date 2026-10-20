@@ -590,7 +590,7 @@ h1, h2, h3, p { margin: 0; }
     letter-spacing: .01em;
     color: var(--accent);
 }
-/* Decorative code brackets come from CSS, so the indexed <h2> text stays exactly "Web - developer". */
+/* Decorative code brackets come from CSS, so the indexed <h2> text stays plain text. */
 .subtitle::before { content: "<"; color: var(--text-muted); }
 .subtitle::after { content: " />"; color: var(--text-muted); }
 

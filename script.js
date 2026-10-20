@@ -63,7 +63,7 @@ if (shareBtn && (navigator.share || navigator.clipboard?.writeText)) {
     shareBtn.addEventListener('click', async () => {
         const url = document.querySelector('link[rel="canonical"]')?.href || location.href;
         if (navigator.share) {
-            try { await navigator.share({ title: document.title, text: 'Dmitrii Shapoval — Web - developer', url }); } catch { /* cancelled */ }
+            try { await navigator.share({ title: document.title, text: 'Dmitrii Shapoval — Frontend Developer', url }); } catch { /* cancelled */ }
             return;
         }
         try {
