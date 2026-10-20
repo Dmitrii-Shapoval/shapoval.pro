@@ -87,7 +87,7 @@ export function createViewer(root, { url, fileName = 'cv.pdf', onClose, openPage
   const fullscreenBtn = $('[data-action="fullscreen"]');
 
   /** @type {{ pdfjs: any, doc: any, pages: Array<{ page: any, base: any, el: HTMLElement, canvas: HTMLCanvasElement, text: HTMLElement, task: any }>, zoom: number, fit: boolean, current: number, renderTimer: number, destroyed: boolean }} */
-  const state = { pdfjs: null, doc: null, pages: [], zoom: 1, fit: true, current: 1, renderTimer: 0, destroyed: false };
+  const state = { pdfjs: null, doc: null, pages: [], zoom: 1, fit: true, current: 1, renderTimer: 0, destroyed: false, themed: false };
 
   // ---------- Toolbar ----------
   root.addEventListener('click', (e) => {
@@ -238,7 +238,32 @@ export function createViewer(root, { url, fileName = 'cv.pdf', onClose, openPage
     }
     p.canvas.replaceWith(canvas);
     p.canvas = canvas;
+    if (p === state.pages[0] && !state.themed) adoptDocumentColors(canvas);
     await renderText(p, viewport);
+  }
+
+  /**
+   * Make the backdrop continue the resume: sample the page's left edge (top,
+   * middle, bottom) and use those colours for the stage gradient. Light pages
+   * (a future white resume) keep the default dark-blue backdrop.
+   */
+  function adoptDocumentColors(canvas) {
+    try {
+      const ctx = canvas.getContext('2d');
+      const pick = (fy) => {
+        const [r, g, b] = ctx.getImageData(Math.floor(canvas.width * 0.015), Math.floor(canvas.height * fy), 1, 1).data;
+        return { r, g, b, lum: (0.2126 * r + 0.7152 * g + 0.0722 * b) / 255 };
+      };
+      const top = pick(0.01), mid = pick(0.55), bottom = pick(0.985);
+      if (Math.max(top.lum, mid.lum, bottom.lum) > 0.45) return;
+      // Slightly darker than the page itself, so the document stays the brightest thing on screen.
+      const css = (c, k = 0.82) => `rgb(${Math.round(c.r * k)} ${Math.round(c.g * k)} ${Math.round(c.b * k)})`;
+      root.style.setProperty('--cv-top', css(top));
+      root.style.setProperty('--cv-mid', css(mid));
+      root.style.setProperty('--cv-bottom', css(bottom));
+      root.style.setProperty('--cv-glow', `rgb(${bottom.r} ${bottom.g} ${bottom.b} / .5)`);
+      state.themed = true;
+    } catch { /* keep the default backdrop */ }
   }
 
   async function renderText(p, viewport) {
