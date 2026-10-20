@@ -40,6 +40,25 @@
     </script>
     <link rel="preload" as="image" href="images/avatar-640.webp" imagesrcset="images/avatar-320.webp 320w, images/avatar-640.webp 640w, images/avatar-832.webp 832w" imagesizes="(min-width: 860px) 380px, 290px" fetchpriority="high">
     <link rel="stylesheet" href="style.css">
+    <!-- Structured data: helps Google show a person card (name, role, photo, profiles) -->
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "Dmitrii Shapoval",
+        "alternateName": ["Dmitry Shapoval", "Dmitri Shapoval", "Dmytro Shapoval", "Дмитрий Шаповал"],
+        "jobTitle": "Frontend Developer",
+        "url": "https://shapoval.pro/",
+        "image": "https://shapoval.pro/images/DmitriiShapoval-avatar.jpg",
+        "email": "mailto:dmitrii@shapoval.pro",
+        "knowsAbout": ["React Native", "React", "TypeScript", "JavaScript", "Frontend development"],
+        "sameAs": [
+            "https://www.linkedin.com/in/dmitrii-shapoval/",
+            "https://t.me/Dmitrii_Shapoval",
+            "https://www.facebook.com/www.shapoval.pro"
+        ]
+    }
+    </script>
 </head>
 <body>
 <!--
@@ -121,8 +140,14 @@
         </p>
         <h1 class="title reveal" id="name" style="--i:2">Dmitrii Shapoval</h1>
         <h2 class="subtitle reveal" style="--i:3">Frontend Developer</h2>
+        <ul class="stack reveal" style="--i:4" aria-label="Experience and stack">
+            <li>3+ years commercial experience</li>
+            <li>React Native</li>
+            <li>React</li>
+            <li>TypeScript</li>
+        </ul>
 
-        <nav class="contacts reveal" style="--i:4" aria-label="Contacts">
+        <nav class="contacts reveal" style="--i:5" aria-label="Contacts">
             <ul class="contacts__list">
                 <li>
                     <a class="tile" href="https://t.me/Dmitrii_Shapoval" target="_blank" rel="noopener me" aria-label="Telegram: @Dmitrii_Shapoval">
@@ -169,7 +194,7 @@
             </ul>
         </nav>
 
-        <div class="actions reveal" style="--i:5">
+        <div class="actions reveal" style="--i:6">
             <a class="chip" href="dmitrii-shapoval.vcf" download="Dmitrii Shapoval.vcf">
                 <svg class="icon" aria-hidden="true"><use href="#i-contact"></use></svg><span>Save contact</span>
             </a>

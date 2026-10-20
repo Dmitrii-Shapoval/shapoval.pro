@@ -253,17 +253,21 @@ h1, h2, h3, p { margin: 0; }
     letter-spacing: .02em;
 }
 
+/* Same mark as the favicon (2020): big white "DS" on a black → blue vertical gradient */
 .brand__mark {
     display: grid;
     place-items: center;
-    width: 34px;
-    height: 34px;
-    border-radius: 10px;
-    font-weight: 700;
-    font-size: 13px;
+    width: 38px;
+    height: 38px;
+    border-radius: 9px;
+    font-family: Roboto, "Segoe UI", system-ui, -apple-system, Arial, sans-serif;
+    font-weight: 400;
+    font-size: 21px;
+    line-height: 1;
+    letter-spacing: -.02em;
     color: #fff;
-    background: linear-gradient(160deg, #3b9dff, #1766d1 60%, #0f4fa8);
-    box-shadow: 0 6px 20px -6px var(--glow), inset 0 1px 0 rgba(255, 255, 255, .25);
+    background: linear-gradient(180deg, #010508 0%, #143d68 50%, #2774c7 100%);
+    box-shadow: 0 6px 18px -6px var(--glow), 0 0 0 1px rgba(110, 165, 255, .18);
 }
 
 .brand__tld { color: var(--text-muted); }
@@ -593,6 +597,31 @@ h1, h2, h3, p { margin: 0; }
 /* Decorative code brackets come from CSS, so the indexed <h2> text stays plain text. */
 .subtitle::before { content: "<"; color: var(--text-muted); }
 .subtitle::after { content: " />"; color: var(--text-muted); }
+
+/* Experience and main stack — what a recruiter looks for first */
+.stack {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 6px 8px;
+    margin: 18px 0 0;
+    padding: 0;
+    list-style: none;
+    font-family: var(--font-mono);
+    font-size: 12px;
+}
+.stack li {
+    padding: 5px 10px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--surface);
+    color: var(--text-muted);
+}
+.stack li:first-child {
+    border-color: var(--tile-border);
+    background: var(--accent-soft);
+    color: var(--text);
+}
 
 /* ---------- Contact tiles: the 2020 Font Awesome tiles, rebuilt ---------- */
 .contacts { margin-top: 30px; max-width: 100%; }
@@ -976,6 +1005,10 @@ html:has(dialog[open]) { overflow: hidden; }
    Resume viewer (viewer.js) — shared by the dialog and the /cv page
    ========================================================================== */
 .cv {
+    --cv-top: #010508;
+    --cv-mid: #0c2746;
+    --cv-bottom: #1a4f8c;
+    --cv-glow: rgba(39, 116, 199, .45);
     position: relative;
     display: flex;
     flex-direction: column;
@@ -1081,12 +1114,16 @@ html:has(dialog[open]) { overflow: hidden; }
     min-height: 0;
     overflow: auto;
     overscroll-behavior: contain;
+    /* Continues the resume's own black → blue gradient. viewer.js samples the
+       real colours from the rendered page, so a restyled PDF still matches. */
     background:
-        radial-gradient(ellipse 70% 50% at 50% 0, var(--accent-soft), transparent 70%),
-        var(--bg);
+        radial-gradient(ellipse 90% 55% at 50% 105%, var(--cv-glow), transparent 70%),
+        radial-gradient(ellipse 60% 40% at 50% -5%, rgba(255, 255, 255, .05), transparent 70%),
+        linear-gradient(180deg, var(--cv-top) 0%, var(--cv-mid) 60%, var(--cv-bottom) 100%);
+    color: #c9d6ea;
     outline: none;
     scrollbar-width: thin;
-    scrollbar-color: var(--accent) transparent;
+    scrollbar-color: #2f80d8 transparent;
 }
 .cv__stage::-webkit-scrollbar { width: 10px; height: 10px; }
 .cv__stage::-webkit-scrollbar-thumb {
@@ -1112,7 +1149,8 @@ html:has(dialog[open]) { overflow: hidden; }
     background: #fff;
     border-radius: 6px;
     overflow: hidden;
-    box-shadow: var(--page-shadow);
+    /* The stage is dark in both themes (it follows the document), so one shadow fits */
+    box-shadow: 0 26px 70px -24px rgba(0, 0, 0, .9), 0 0 0 1px rgba(255, 255, 255, .06);
     animation: page-in .6s var(--ease-out) both;
 }
 @keyframes page-in {
@@ -1147,7 +1185,7 @@ html:has(dialog[open]) { overflow: hidden; }
     align-items: center;
     justify-content: center;
     gap: 12px;
-    color: var(--text-muted);
+    color: #9fb2cc;
     font-family: var(--font-mono);
     font-size: 13px;
 }
@@ -1334,6 +1372,7 @@ html:has(dialog[open]) { overflow: hidden; }
     }
     .hero__content { align-items: flex-start; }
     .contacts__list { justify-content: flex-start; gap: 18px; }
+    .stack { justify-content: flex-start; }
     .actions { justify-content: flex-start; }
     .title { font-size: clamp(3rem, 5.6vw, 5.4rem); }
     .subtitle { font-size: 1.35rem; }
