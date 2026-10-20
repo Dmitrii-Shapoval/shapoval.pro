@@ -5,7 +5,7 @@
  */
 
 const THEME_KEY = 'theme';
-const THEME_COLORS = { dark: '#06080c', light: '#f4f6f9' };
+const THEME_COLORS = { dark: '#02050b', light: '#eef3fa' };
 const root = document.documentElement;
 const systemLight = matchMedia('(prefers-color-scheme: light)');
 
@@ -40,14 +40,43 @@ export function initTheme() {
     });
 }
 
+/**
+ * "Back" links: return to the previous page of this site when there is one
+ * (keeps the scroll position), otherwise follow the link (e.g. opened from Google).
+ */
+export function initBackLinks() {
+    document.querySelectorAll('[data-back]').forEach((link) => {
+        link.addEventListener('click', (e) => {
+            let fromThisSite = false;
+            try { fromThisSite = new URL(document.referrer).origin === location.origin; } catch { /* no referrer */ }
+            if (fromThisSite && history.length > 1) {
+                e.preventDefault();
+                history.back();
+            }
+        });
+    });
+}
+
 let toastTimer = 0;
 
-/** Show a short status message at the bottom of the screen. */
-export function toast(message) {
+/**
+ * Show a short status message at the bottom of the screen.
+ * @param {string} message
+ * @param {{ label: string, href: string }} [action] optional link button inside the toast
+ */
+export function toast(message, action) {
     const el = document.querySelector('[data-toast]');
     if (!el) return;
     el.querySelector('[data-toast-text]').textContent = message;
+    const button = el.querySelector('[data-toast-action]');
+    if (button) {
+        button.hidden = !action;
+        if (action) {
+            button.textContent = action.label;
+            button.href = action.href;
+        }
+    }
     el.classList.add('is-visible');
     clearTimeout(toastTimer);
-    toastTimer = setTimeout(() => el.classList.remove('is-visible'), 2600);
+    toastTimer = setTimeout(() => el.classList.remove('is-visible'), action ? 4200 : 2600);
 }

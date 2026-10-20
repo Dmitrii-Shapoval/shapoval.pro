@@ -1,0 +1,78 @@
+/* Version switch for the classic 2020 pages (added in 2026).
+   Self-contained and drawn in the 2020 style: black → #297acf gradient, Dodgerblue glow. */
+.vswitch {
+    position: fixed;
+    top: 14px;
+    right: 14px;
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    padding: 3px;
+    border: 1px solid rgba(30, 144, 255, .35);
+    border-radius: 999px;
+    background: linear-gradient(0deg, rgba(41, 122, 207, .4), rgba(0, 0, 0, .88) 72%);
+    box-shadow: 0 8px 10px -5px rgba(0, 0, 0, .2), 0 16px 24px 2px rgba(0, 0, 0, .14), 0 6px 30px 5px rgba(0, 0, 0, .12);
+    font: 500 13px/1 'Roboto', system-ui, -apple-system, 'Segoe UI', sans-serif;
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+    animation: vswitch-in .6s ease-out 2.6s both; /* after the 2020 "Hello!" screen */
+}
+.vswitch_bottom {
+    top: auto;
+    bottom: 18px;
+    right: 28px;
+    animation-delay: .3s;
+}
+.vswitch__item {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    height: 30px;
+    padding: 0 12px;
+    border-radius: 999px;
+    color: #e0dfe2;
+    text-decoration: none;
+    white-space: nowrap;
+    transition: color .2s, background-color .2s, box-shadow .2s;
+}
+.vswitch__item_current {
+    background: rgba(0, 0, 0, .55);
+    color: #8fb8e6;
+}
+.vswitch__item_new {
+    background: linear-gradient(90deg, #1766d1, #1e90ff);
+    color: #fff;
+}
+a.vswitch__item:hover,
+a.vswitch__item:focus-visible {
+    color: #fff;
+    box-shadow: 0 4px 14px Dodgerblue;
+    outline: none;
+}
+.vswitch__item svg {
+    width: 12px;
+    height: 12px;
+    fill: currentColor;
+}
+@keyframes vswitch-in {
+    from { opacity: 0; transform: translateY(-8px); }
+}
+/* Phones: the big title fills the top, so the switch sits above the footer */
+@media (max-width: 620px) {
+    .vswitch {
+        top: auto;
+        bottom: 58px;
+        right: 50%;
+        transform: translateX(50%);
+        font-size: 12px;
+        animation-name: vswitch-in-mobile;
+    }
+    .vswitch_bottom { bottom: 14px; }
+    @keyframes vswitch-in-mobile {
+        from { opacity: 0; transform: translate(50%, 8px); }
+    }
+}
+@media (prefers-reduced-motion: reduce) {
+    .vswitch { animation: none; }
+}

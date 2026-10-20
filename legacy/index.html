@@ -24,6 +24,7 @@
     <link rel="stylesheet" type="text/css" href="libraries/fontawesome/all.min.css">
     <link rel="stylesheet" type="text/css" href="css/main.css">
     <link rel="stylesheet" type="text/css" href="css/media.css">
+    <link rel="stylesheet" type="text/css" href="css/version-switch.css">
 <!--    Style for MS Edge and IE11-8-->
     <link rel="stylesheet" type="text/css" href="css/edge-ie11-8/Edge~44V.css">
     <link rel="stylesheet" type="text/css" href="css/edge-ie11-8/IE11-9V.css">
@@ -32,6 +33,12 @@
     <!--[if lte IE 8]><link rel="stylesheet" type="text/css" href="css/edge-ie11-8/IE%3C=8V.css"><![endif]-->
 </head>
 <body>
+<!-- Version switch (added in 2026): the classic 2020 page ⇄ the current 2026 site -->
+<nav class="vswitch" aria-label="Site version">
+    <span class="vswitch__item vswitch__item_current" aria-current="page">2020</span>
+    <a class="vswitch__item vswitch__item_new" href="../" title="Switch to the new 2026 version">2026 version <svg viewBox="0 0 448 512" aria-hidden="true"><path transform="matrix(1 0 0 -1 0 448)" d="M190.5 381.1l22.2 22.2c9.4 9.4 24.6 9.4 33.9 0l194.4-194.3c9.4-9.4 9.4-24.6 0-33.9l-194.4-194.4c-9.4-9.4-24.6-9.4-33.9 0l-22.2 22.2c-9.5 9.5-9.3 25 .4 34.3l120.5 114.8h-287.4c-13.3 0-24 10.7-24 24v32c0 13.3 10.7 24 24 24h287.4l-120.5 114.8c-9.8 9.3-10 24.8-.4 34.3z"/></svg></a>
+</nav>
+
 <div class="modal">
     <h4 class="modal__header">Hello!</h4>
     <p class="modal__txt">Welcome to my business card site.</p>
