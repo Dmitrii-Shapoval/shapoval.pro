@@ -1,0 +1,1433 @@
+/* ==========================================================================
+   shapoval.pro — 2026 redesign
+   Built on the visual DNA of the 2020 version: black sky, Dodgerblue light
+   fan on the "floor", metallic gradient type, Font Awesome glyphs on tiles
+   with Material elevation — rebuilt with modern CSS.
+
+   Pure CSS, no frameworks. Mobile-first. Themes via [data-theme] on <html>.
+   Continuous animations only touch `transform` / `opacity` (GPU-composited)
+   and are switched off for users who prefer reduced motion.
+   ========================================================================== */
+
+/* ---------- Design tokens ---------- */
+:root {
+    --font-sans: ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    --font-mono: ui-monospace, "SF Mono", "JetBrains Mono", "Cascadia Code", "Roboto Mono", Menlo, Consolas, monospace;
+
+    --radius-sm: 12px;
+    --radius: 18px;
+    --radius-lg: 28px;
+
+    --ease-out: cubic-bezier(.16, 1, .3, 1);
+    --ease-in-out: cubic-bezier(.65, 0, .35, 1);
+    --ease-spring: cubic-bezier(.34, 1.56, .64, 1);
+    --dur: .35s;
+
+    --gutter: clamp(16px, 4vw, 40px);
+    --tile: 56px;
+    --portrait-w: min(64vw, 290px);
+}
+
+/* Dark (default): the 2020 palette — black + #297acf / Dodgerblue — refined */
+:root,
+:root[data-theme="dark"] {
+    color-scheme: dark;
+    --bg: #02050b;
+    --bg-2: #060c18;
+    --surface: rgba(8, 16, 30, .6);
+    --surface-strong: rgba(9, 18, 34, .94);
+    --border: rgba(110, 165, 255, .14);
+    --border-strong: rgba(110, 165, 255, .3);
+    --text: #e7eefb;
+    --text-muted: #8797b0;
+
+    --accent: #1e90ff;          /* Dodgerblue — the 2020 accent */
+    --accent-2: #5ec4ff;
+    --accent-btn: #1766d1;      /* white text on it: 5.5:1 */
+    --accent-btn-hover: #1d74e0;
+    --accent-ink: #fff;
+    --accent-soft: rgba(30, 144, 255, .12);
+    --glow: rgba(30, 144, 255, .5);
+
+    --sky-glow: rgba(23, 70, 140, .32);
+    --star: rgba(190, 215, 255, .55);
+    --halo: rgba(30, 128, 255, .32);
+    --fan: rgba(41, 122, 207, .62);     /* #297acf, the 2020 background colour */
+    --horizon: rgba(94, 180, 255, .95);
+    --horizon-glow: rgba(30, 144, 255, .45);
+    --grid-line: rgba(64, 156, 255, .3);
+
+    --glyph-a: #6bb6ff;
+    --glyph-b: #1e7fe8;
+    --tile-bg: linear-gradient(180deg, rgba(30, 144, 255, .16), rgba(30, 144, 255, .03) 70%), rgba(3, 9, 20, .62);
+    --tile-border: rgba(30, 144, 255, .22);
+    --tile-highlight: rgba(255, 255, 255, .07);
+
+    --title-grad: linear-gradient(180deg, #ffffff 22%, #bcd8ff 58%, #3d8fe6 100%);
+    --title-shine: linear-gradient(100deg, transparent 42%, rgba(255, 255, 255, .95) 50%, transparent 58%);
+    --sub-grad: linear-gradient(90deg, var(--accent), var(--accent-2));
+
+    /* Material elevation from the 2020 tiles, plus its blue hover variant */
+    --shadow-md: 0 8px 10px -5px rgba(0, 0, 0, .2), 0 16px 24px 2px rgba(0, 0, 0, .14), 0 6px 30px 5px rgba(0, 0, 0, .12);
+    --shadow-glow: 0 8px 10px -5px rgba(30, 144, 255, .3), 0 16px 24px 2px rgba(30, 144, 255, .2), 0 6px 30px 5px rgba(30, 144, 255, .16);
+    --shadow-lg: 0 30px 80px -30px rgba(0, 0, 0, .85), 0 0 0 1px var(--border);
+    --page-shadow: 0 18px 50px -18px rgba(0, 0, 0, .9);
+}
+
+/* Light: clean, high-contrast, same blue identity */
+:root[data-theme="light"] {
+    color-scheme: light;
+    --bg: #eef3fa;
+    --bg-2: #ffffff;
+    --surface: rgba(255, 255, 255, .72);
+    --surface-strong: rgba(255, 255, 255, .96);
+    --border: rgba(16, 52, 110, .1);
+    --border-strong: rgba(16, 52, 110, .2);
+    --text: #0a1528;
+    --text-muted: #4b5a73;
+
+    --accent: #0b63ce;
+    --accent-2: #0f8fd6;
+    --accent-btn: #0b63ce;
+    --accent-btn-hover: #0a56b5;
+    --accent-ink: #fff;
+    --accent-soft: rgba(11, 99, 206, .08);
+    --glow: rgba(11, 99, 206, .3);
+
+    --sky-glow: rgba(120, 175, 255, .28);
+    --star: transparent;
+    --halo: rgba(40, 130, 255, .22);
+    --fan: rgba(30, 120, 230, .2);
+    --horizon: rgba(11, 99, 206, .7);
+    --horizon-glow: rgba(30, 130, 255, .22);
+    --grid-line: rgba(11, 99, 206, .17);
+
+    --glyph-a: #2c86f0;
+    --glyph-b: #0b56b8;
+    --tile-bg: linear-gradient(180deg, #ffffff, #f2f6fd);
+    --tile-border: rgba(11, 99, 206, .16);
+    --tile-highlight: rgba(255, 255, 255, .9);
+
+    --title-grad: linear-gradient(180deg, #0a1528 35%, #143f7c 72%, #1d6fd2 100%);
+    --title-shine: linear-gradient(100deg, transparent 42%, rgba(120, 190, 255, .95) 50%, transparent 58%);
+    --reflection: .1;
+
+    --shadow-md: 0 8px 10px -5px rgba(16, 52, 110, .1), 0 16px 24px 2px rgba(16, 52, 110, .07), 0 6px 30px 5px rgba(16, 52, 110, .06);
+    --shadow-glow: 0 8px 10px -5px rgba(11, 99, 206, .18), 0 16px 24px 2px rgba(11, 99, 206, .12), 0 6px 30px 5px rgba(11, 99, 206, .1);
+    --shadow-lg: 0 30px 70px -35px rgba(15, 23, 42, .35), 0 0 0 1px var(--border);
+    --page-shadow: 0 14px 40px -16px rgba(15, 23, 42, .35);
+}
+
+/* ---------- Base ---------- */
+*,
+*::before,
+*::after { box-sizing: border-box; }
+
+html {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+    background: var(--bg);
+    scrollbar-color: var(--accent) transparent;
+}
+
+body {
+    margin: 0;
+    font-family: var(--font-sans);
+    font-size: 16px;
+    line-height: 1.5;
+    color: var(--text);
+    background: var(--bg);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+}
+
+/* Page shell. `overflow: clip` cuts the oversized stage effects without creating a scroll container. */
+.page {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+    min-height: 100dvh;
+    overflow: hidden;
+    overflow: clip;
+}
+
+img,
+svg,
+canvas { display: block; max-width: 100%; }
+
+a { color: inherit; text-decoration: none; }
+
+button { font: inherit; color: inherit; }
+
+h1, h2, h3, p { margin: 0; }
+
+::selection { background: var(--accent); color: #fff; }
+
+:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 3px;
+    border-radius: 8px;
+}
+
+/* Font Awesome glyphs are filled shapes */
+.icon {
+    width: 20px;
+    height: 20px;
+    fill: currentColor;
+    flex-shrink: 0;
+}
+
+.sprite { position: absolute; width: 0; height: 0; overflow: hidden; }
+
+.skip-link {
+    position: absolute;
+    left: 16px;
+    top: -60px;
+    z-index: 400;
+    padding: 10px 16px;
+    border-radius: var(--radius-sm);
+    background: var(--accent-btn);
+    color: #fff;
+    font-weight: 600;
+    transition: transform .2s var(--ease-out);
+}
+.skip-link:focus { transform: translateY(76px); }
+
+/* ---------- Sky (static): soft zenith glow + two star layers ---------- */
+.sky {
+    position: fixed;
+    inset: 0;
+    z-index: -2;
+    pointer-events: none;
+    background: radial-gradient(ellipse 80% 55% at 50% 0%, var(--sky-glow), transparent 70%), var(--bg);
+}
+.sky::before,
+.sky::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    -webkit-mask-image: linear-gradient(to bottom, #000 0%, transparent 72%);
+    mask-image: linear-gradient(to bottom, #000 0%, transparent 72%);
+}
+.sky::before {
+    background-image:
+        radial-gradient(1px 1px at 37px 51px, var(--star) 50%, transparent 51%),
+        radial-gradient(1px 1px at 129px 17px, var(--star) 50%, transparent 51%),
+        radial-gradient(1.5px 1.5px at 201px 133px, var(--star) 50%, transparent 51%),
+        radial-gradient(1px 1px at 91px 187px, var(--star) 50%, transparent 51%),
+        radial-gradient(1px 1px at 173px 223px, var(--star) 50%, transparent 51%);
+    background-size: 240px 240px;
+    opacity: .7;
+}
+.sky::after {
+    background-image:
+        radial-gradient(1px 1px at 61px 293px, var(--star) 50%, transparent 51%),
+        radial-gradient(1.5px 1.5px at 307px 89px, var(--star) 50%, transparent 51%),
+        radial-gradient(1px 1px at 233px 331px, var(--star) 50%, transparent 51%);
+    background-size: 370px 370px;
+    animation: twinkle 5s ease-in-out infinite alternate;
+}
+@keyframes twinkle { from { opacity: .25; } to { opacity: .8; } }
+
+/* ---------- Top bar ---------- */
+.topbar {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 16px var(--gutter);
+}
+
+.brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-family: var(--font-mono);
+    font-size: 14px;
+    letter-spacing: .02em;
+}
+
+/* Same mark as the favicon (2020): big white "DS" on a black → blue vertical gradient */
+.brand__mark {
+    display: grid;
+    place-items: center;
+    width: 38px;
+    height: 38px;
+    border-radius: 9px;
+    font-family: Roboto, "Segoe UI", system-ui, -apple-system, Arial, sans-serif;
+    font-weight: 400;
+    font-size: 21px;
+    line-height: 1;
+    letter-spacing: -.02em;
+    color: #fff;
+    background: linear-gradient(180deg, #010508 0%, #143d68 50%, #2774c7 100%);
+    box-shadow: 0 6px 18px -6px var(--glow), 0 0 0 1px rgba(110, 165, 255, .18);
+}
+
+.brand__tld { color: var(--text-muted); }
+
+.icon-btn {
+    position: relative;
+    display: inline-grid;
+    place-items: center;
+    width: 42px;
+    height: 42px;
+    padding: 0;
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    background: var(--surface);
+    color: var(--text);
+    cursor: pointer;
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+    transition: border-color var(--dur) ease, color var(--dur) ease, transform .2s var(--ease-out);
+}
+.icon-btn .icon { width: 18px; height: 18px; }
+.icon-btn:hover { border-color: var(--accent); color: var(--accent); }
+.icon-btn:active { transform: scale(.94); }
+
+/* Theme toggle: sun/moon swap with rotate + fade */
+.theme-toggle .icon {
+    grid-area: 1 / 1;
+    width: 20px;
+    height: 20px;
+    transition: transform .5s var(--ease-spring), opacity .3s ease;
+}
+:root[data-theme="dark"] .theme-toggle .icon--moon,
+:root[data-theme="light"] .theme-toggle .icon--sun {
+    opacity: 0;
+    transform: rotate(-90deg) scale(.5);
+}
+
+/* ---------- Hero layout ---------- */
+.hero {
+    flex: 1;
+    display: grid;
+    justify-items: center;
+    align-content: center;
+    row-gap: 30px;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 8px var(--gutter) 28px;
+    text-align: center;
+}
+
+.hero__media {
+    position: relative;
+    isolation: isolate;
+}
+
+.hero__content {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-width: 0;
+    max-width: 100%;
+}
+
+/* ---------- Stage: halo, light fan, horizon, moving grid floor ---------- */
+.stage {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+}
+
+/* Back light that separates the portrait from the night sky */
+.stage__halo {
+    position: absolute;
+    left: 50%;
+    top: 46%;
+    width: 175%;
+    aspect-ratio: 1;
+    background: radial-gradient(circle closest-side, var(--halo), transparent);
+    transform: translate(-50%, -50%);
+    animation: halo 7s ease-in-out infinite alternate;
+    will-change: transform, opacity;
+}
+@keyframes halo {
+    from { opacity: .6; transform: translate(-50%, -50%) scale(.94); }
+    to { opacity: 1; transform: translate(-50%, -50%) scale(1.05); }
+}
+
+/* The 2020 conic "fan" — rays spilling down from the horizon. It used an
+   animation called moveBackground that was never defined; now it moves. */
+.stage__fan {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    width: 240vw;
+    height: 105vh;
+    margin-left: -120vw;
+    background: conic-gradient(from 90deg at 50% 0, transparent 0deg, var(--fan) 90deg, transparent 180deg);
+    -webkit-mask-image: radial-gradient(ellipse 46% 100% at 50% 0, #000 8%, transparent 78%);
+    mask-image: radial-gradient(ellipse 46% 100% at 50% 0, #000 8%, transparent 78%);
+    transform-origin: 50% 0;
+    animation: moveBackground 16s ease-in-out infinite alternate;
+    will-change: transform;
+}
+@keyframes moveBackground {
+    from { transform: rotate(-3deg) scaleX(.94); }
+    to { transform: rotate(3deg) scaleX(1.06); }
+}
+
+.stage__horizon {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    width: 200vw;
+    height: 1px;
+    margin-left: -100vw;
+    background: linear-gradient(90deg, transparent 10%, var(--horizon) 50%, transparent 90%);
+}
+.stage__horizon::after {
+    content: "";
+    position: absolute;
+    left: 30%;
+    right: 30%;
+    top: -34px;
+    height: 68px;
+    background: radial-gradient(ellipse 50% 50% at 50% 50%, var(--horizon-glow), transparent);
+}
+
+/* Perspective grid "floor"; only the inner layer moves (transform), so it stays on the GPU */
+.stage__floor {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    width: 170vw;
+    height: 62vh;
+    margin-left: -85vw;
+    overflow: hidden;
+    perspective: 260px;
+    perspective-origin: 50% 0;
+    -webkit-mask-image: linear-gradient(to bottom, transparent 0, #000 10%, #000 30%, transparent 92%);
+    mask-image: linear-gradient(to bottom, transparent 0, #000 10%, #000 30%, transparent 92%);
+}
+.stage__plane {
+    position: absolute;
+    inset: 0 0 auto;
+    height: 210%;
+    transform-origin: 50% 0;
+    transform: rotateX(76deg);
+    -webkit-mask-image: linear-gradient(90deg, transparent 4%, #000 34%, #000 66%, transparent 96%);
+    mask-image: linear-gradient(90deg, transparent 4%, #000 34%, #000 66%, transparent 96%);
+}
+.stage__grid {
+    position: absolute;
+    inset: -64px 0 0;
+    background-image:
+        linear-gradient(var(--grid-line) 1.5px, transparent 1.5px),
+        linear-gradient(90deg, var(--grid-line) 1.5px, transparent 1.5px);
+    background-size: 64px 64px;
+    background-position: center top;
+    animation: floor 3.6s linear infinite;
+    will-change: transform;
+}
+@keyframes floor { to { transform: translate3d(0, 64px, 0); } }
+
+/* ---------- Portrait ---------- */
+.portrait {
+    --rx: 0deg;
+    --ry: 0deg;
+    --gx: 0px;
+    --gy: 0px;
+    position: relative;
+    display: block;
+    width: var(--portrait-w);
+    padding: 0;
+    border: 0;
+    border-radius: 28px;
+    background: none;
+    cursor: zoom-in;
+    box-shadow: 0 40px 90px -36px var(--glow);
+    transform: perspective(1100px) rotateX(var(--rx)) rotateY(var(--ry));
+    transition: transform .7s var(--ease-out);
+    -webkit-tap-highlight-color: transparent;
+}
+.portrait.is-tilting { transition: transform .15s linear; }
+.portrait:focus-visible { outline-offset: 6px; border-radius: 30px; }
+
+/* Rotating gradient ring: a conic gradient spun with transform, clipped by the frame */
+.portrait__ring {
+    position: absolute;
+    inset: -2px;
+    z-index: -1;
+    border-radius: 30px;
+    overflow: hidden;
+}
+.portrait__ring::before {
+    content: "";
+    position: absolute;
+    inset: -60%;
+    background: conic-gradient(from 0deg, var(--accent), transparent 25%, var(--accent-2) 50%, transparent 75%, var(--accent));
+    animation: spin 9s linear infinite;
+    will-change: transform;
+}
+
+.portrait picture { display: block; }
+
+.portrait__img {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 832 / 1181;
+    object-fit: cover;
+    border-radius: 26px;
+    background: var(--bg-2);
+    -webkit-user-select: none;
+    user-select: none;
+    -webkit-user-drag: none;
+}
+
+/* Light glare that follows the pointer (moved with transform only) */
+.portrait__glare {
+    position: absolute;
+    inset: 0;
+    border-radius: 26px;
+    overflow: hidden;
+    opacity: 0;
+    transition: opacity .5s ease;
+    pointer-events: none;
+}
+.portrait__glare::before {
+    content: "";
+    position: absolute;
+    left: -50%;
+    top: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle at 50% 50%, rgba(255, 255, 255, .24), transparent 34%);
+    transform: translate3d(var(--gx), var(--gy), 0);
+}
+
+.portrait__zoom {
+    position: absolute;
+    right: 14px;
+    bottom: 14px;
+    display: grid;
+    place-items: center;
+    width: 38px;
+    height: 38px;
+    border-radius: 12px;
+    background: rgba(2, 8, 18, .55);
+    color: #fff;
+    -webkit-backdrop-filter: blur(8px);
+    backdrop-filter: blur(8px);
+    opacity: 0;
+    transform: translateY(6px) scale(.9);
+    transition: opacity .3s ease, transform .4s var(--ease-spring);
+}
+.portrait__zoom .icon { width: 16px; height: 16px; }
+
+@media (hover: hover) {
+    .portrait:hover .portrait__glare { opacity: 1; }
+    .portrait:hover .portrait__zoom { opacity: 1; transform: none; }
+}
+.portrait:focus-visible .portrait__zoom { opacity: 1; transform: none; }
+@media (hover: none) {
+    .portrait__zoom { opacity: .85; transform: none; }
+}
+
+/* While the lightbox is open, the big photo "is" the portrait (shared-element zoom) */
+.portrait.is-lifted .portrait__img,
+.portrait.is-lifted .portrait__ring,
+.portrait.is-lifted .portrait__zoom { opacity: 0; }
+
+@keyframes spin { to { transform: rotate(1turn); } }
+
+/* ---------- Text ---------- */
+.greeting {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    max-width: 100%;
+    padding: 6px 14px;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    background: var(--accent-soft);
+    font-family: var(--font-mono);
+    font-size: 12.5px;
+    color: var(--text-muted);
+}
+.greeting__prompt {
+    color: var(--accent);
+    font-weight: 700;
+    animation: blink 1.2s steps(2, start) infinite;
+}
+@keyframes blink { to { opacity: .25; } }
+
+/* Metallic gradient name — the 2020 signature — with a light sweep on hover */
+.title {
+    margin-top: 16px;
+    padding-bottom: .06em;
+    font-size: clamp(2.4rem, 10.5vw, 3.6rem);
+    font-weight: 750;
+    line-height: 1.02;
+    letter-spacing: -.035em;
+    background-image: var(--title-shine), var(--title-grad);
+    background-size: 260% 100%, 100% 100%;
+    background-position: 160% 0, 0 0;
+    background-repeat: no-repeat;
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    transition: background-position 1.2s var(--ease-out);
+}
+@media (hover: hover) {
+    .title:hover { background-position: -60% 0, 0 0; }
+}
+
+.subtitle {
+    margin-top: 10px;
+    font-family: var(--font-mono);
+    font-size: clamp(1rem, 3.6vw, 1.3rem);
+    font-weight: 500;
+    letter-spacing: .01em;
+    color: var(--accent);
+}
+/* Decorative code brackets come from CSS, so the indexed <h2> text stays plain text. */
+.subtitle::before { content: "<"; color: var(--text-muted); }
+.subtitle::after { content: " />"; color: var(--text-muted); }
+
+/* Experience and main stack — what a recruiter looks for first */
+.stack {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 6px 8px;
+    margin: 18px 0 0;
+    padding: 0;
+    list-style: none;
+    font-family: var(--font-mono);
+    font-size: 12px;
+}
+.stack li {
+    padding: 5px 10px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: var(--surface);
+    color: var(--text-muted);
+}
+.stack li:first-child {
+    border-color: var(--tile-border);
+    background: var(--accent-soft);
+    color: var(--text);
+}
+
+/* ---------- Contact tiles: the 2020 Font Awesome tiles, rebuilt ---------- */
+.contacts { margin-top: 30px; max-width: 100%; }
+
+.contacts__list {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+}
+
+.tile {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 9px;
+    border-radius: var(--radius);
+    -webkit-tap-highlight-color: transparent;
+}
+.tile:focus-visible { outline-offset: 4px; }
+
+.tile__box {
+    position: relative;
+    display: grid;
+    place-items: center;
+    width: var(--tile);
+    height: var(--tile);
+    border: 1px solid var(--tile-border);
+    border-radius: calc(var(--tile) * .28);
+    background: var(--tile-bg);
+    box-shadow: var(--shadow-md), inset 0 1px 0 var(--tile-highlight);
+    transition: transform var(--dur) var(--ease-spring), border-color var(--dur) ease;
+}
+/* Hover glow lives on its own layer: only its opacity changes */
+.tile__box::before {
+    content: "";
+    position: absolute;
+    inset: -1px;
+    border-radius: inherit;
+    box-shadow: var(--shadow-glow), 0 0 0 1px var(--accent);
+    opacity: 0;
+    transition: opacity var(--dur) ease;
+}
+/* Diagonal shine that sweeps across on hover */
+.tile__box::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: linear-gradient(115deg, transparent 38%, rgba(255, 255, 255, .2) 50%, transparent 62%) no-repeat;
+    background-size: 250% 100%;
+    background-position: 130% 0;
+    opacity: 0;
+    transition: opacity .2s ease;
+}
+.tile__box .icon {
+    position: relative;
+    z-index: 1;
+    width: 46%;
+    height: 46%;
+    fill: url(#g-glyph);
+    transition: transform var(--dur) var(--ease-spring);
+}
+
+.tile__label {
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    letter-spacing: .02em;
+    color: var(--text-muted);
+    transition: color var(--dur) ease;
+}
+
+.tile--accent .tile__box {
+    border-color: transparent;
+    background: linear-gradient(160deg, #3b9dff, #1766d1 58%, #0f4fa8);
+    box-shadow: var(--shadow-md), 0 10px 26px -10px var(--glow), inset 0 1px 0 rgba(255, 255, 255, .25);
+}
+.tile--accent .tile__box .icon { fill: #fff; }
+
+@media (hover: hover) {
+    .tile:hover .tile__box { transform: translateY(-4px); border-color: var(--accent); }
+    .tile:hover .tile__box::before { opacity: 1; }
+    .tile:hover .tile__box::after { opacity: 1; animation: shine .8s var(--ease-out) forwards; }
+    .tile:hover .tile__box .icon { transform: scale(1.08); }
+    .tile:hover .tile__label { color: var(--text); }
+}
+/* Pressed: the 2020 "push-in" (shadow off, icon shrinks) */
+.tile:active .tile__box { transform: scale(.94); box-shadow: none; }
+.tile:active .tile__box::before { opacity: 0; }
+@keyframes shine { to { background-position: -30% 0; } }
+
+/* Tooltip — the 2020 mail tooltip, now for every tile */
+.tile__tip {
+    position: absolute;
+    bottom: calc(100% + 12px);
+    left: 50%;
+    z-index: 5;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3px;
+    padding: 8px 12px;
+    border: 1px solid var(--border-strong);
+    border-radius: 12px;
+    background: var(--surface-strong);
+    box-shadow: var(--shadow-md);
+    font: 12px/1.3 var(--font-mono);
+    color: var(--text);
+    white-space: nowrap;
+    opacity: 0;
+    transform: translate(-50%, 6px) scale(.96);
+    transform-origin: 50% 100%;
+    pointer-events: none;
+    transition: opacity .2s ease, transform .3s var(--ease-spring);
+}
+.tile__tip::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    width: 10px;
+    height: 10px;
+    margin-top: -5px;
+    border-right: 1px solid var(--border-strong);
+    border-bottom: 1px solid var(--border-strong);
+    background: var(--surface-strong);
+    transform: translateX(-50%) rotate(45deg);
+}
+.tile__tip-hint {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+    color: var(--text-muted);
+}
+.tile__tip-hint .icon { width: 11px; height: 11px; }
+.tile.is-copied .tile__tip-hint { color: var(--accent); }
+
+@media (hover: hover) {
+    .tile:hover .tile__tip { opacity: 1; transform: translate(-50%, 0) scale(1); }
+}
+.tile:focus-visible .tile__tip { opacity: 1; transform: translate(-50%, 0) scale(1); }
+@media (hover: none) {
+    .tile__tip { display: none; }
+}
+
+/* ---------- Secondary actions ---------- */
+.actions {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+    margin-top: 24px;
+}
+
+.chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    height: 38px;
+    padding: 0 15px;
+    border: 1px solid var(--border-strong);
+    border-radius: 999px;
+    background: var(--surface);
+    color: var(--text);
+    font-size: 13px;
+    font-weight: 500;
+    cursor: pointer;
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+    transition: border-color .25s ease, color .25s ease, transform .2s var(--ease-out);
+}
+.chip .icon { width: 15px; height: 15px; color: var(--accent); }
+.chip:hover { border-color: var(--accent); color: var(--accent); }
+.chip:active { transform: scale(.96); }
+.chip[hidden] { display: none; }
+
+/* ---------- Footer ---------- */
+.footer {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 8px var(--gutter) 24px;
+    text-align: center;
+}
+
+.footer__copyright {
+    font-size: 13px;
+    font-weight: 400;
+    color: var(--text-muted);
+}
+
+/* Version switch: 2026 ⇄ 2020 (mirrored on the legacy pages) */
+.version {
+    display: inline-flex;
+    align-items: center;
+    gap: 2px;
+    padding: 4px;
+    border: 1px solid var(--border-strong);
+    border-radius: 999px;
+    background: var(--surface);
+    font-family: var(--font-mono);
+    font-size: 12px;
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+}
+.version__item {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    height: 30px;
+    padding: 0 13px;
+    border-radius: 999px;
+    color: var(--text-muted);
+    transition: color .25s ease, background-color .25s ease;
+}
+.version__item.is-current {
+    background: var(--accent-btn);
+    color: #fff;
+    box-shadow: 0 4px 14px -4px var(--glow);
+}
+.version__item .icon {
+    width: 13px;
+    height: 13px;
+    transition: transform .7s var(--ease-out);
+}
+a.version__item:hover { color: var(--text); background: var(--accent-soft); }
+a.version__item:hover .icon { transform: rotate(-360deg); }
+
+/* ---------- Toast ---------- */
+.toast {
+    position: fixed;
+    left: 50%;
+    bottom: max(24px, env(safe-area-inset-bottom));
+    z-index: 260;
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    max-width: calc(100vw - 32px);
+    padding: 10px 12px 10px 16px;
+    border: 1px solid var(--border-strong);
+    border-radius: 999px;
+    background: var(--surface-strong);
+    box-shadow: var(--shadow-lg);
+    font-size: 14px;
+    -webkit-backdrop-filter: blur(14px);
+    backdrop-filter: blur(14px);
+    opacity: 0;
+    transform: translate(-50%, 16px) scale(.96);
+    pointer-events: none;
+    transition: opacity .3s ease, transform .4s var(--ease-spring);
+}
+.toast > .icon { width: 16px; height: 16px; color: var(--accent); }
+.toast.is-visible { opacity: 1; transform: translate(-50%, 0) scale(1); pointer-events: auto; }
+.toast__action {
+    padding: 5px 12px;
+    border-radius: 999px;
+    background: var(--accent-soft);
+    color: var(--accent);
+    font-size: 13px;
+    font-weight: 600;
+    white-space: nowrap;
+}
+.toast__action:hover { background: var(--accent); color: #fff; }
+.toast__action[hidden] { display: none; }
+
+/* ---------- Welcome intro (once per session, see the inline script in <head>) ---------- */
+.intro { display: none; }
+:root[data-intro] .intro {
+    position: fixed;
+    inset: 0;
+    z-index: 300;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 18px;
+    padding: 24px;
+    background: radial-gradient(ellipse 80% 55% at 50% 100%, var(--halo), transparent 70%), var(--bg);
+    text-align: center;
+    cursor: pointer;
+    animation: intro-out .55s var(--ease-in-out) 1.05s forwards;
+}
+:root[data-intro] .intro::before {
+    content: "Hello!";
+    padding-bottom: .08em;
+    font-size: clamp(3.2rem, 13vw, 7.5rem);
+    font-weight: 750;
+    line-height: 1;
+    letter-spacing: -.045em;
+    background: var(--title-grad);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: intro-in .8s var(--ease-out) both, intro-zoom .55s ease-in 1.05s forwards;
+}
+:root[data-intro] .intro::after {
+    content: "Welcome to my business card site.";
+    font-family: var(--font-mono);
+    font-size: clamp(.95rem, 3.4vw, 1.35rem);
+    color: var(--text-muted);
+    animation: intro-in .8s var(--ease-out) .16s both;
+}
+:root[data-intro="skip"] .intro { animation: intro-out .25s ease forwards; }
+@keyframes intro-in { from { opacity: 0; transform: translate3d(0, 26px, 0); } }
+@keyframes intro-zoom { to { opacity: 0; transform: scale(1.5); } }
+@keyframes intro-out { to { opacity: 0; visibility: hidden; } }
+
+/* ---------- Entrance animation ---------- */
+.reveal {
+    animation: reveal .8s var(--ease-out) both;
+    animation-delay: calc(var(--i, 0) * 90ms + 80ms);
+}
+:root[data-intro="play"] .reveal { animation-delay: calc(var(--i, 0) * 90ms + 1.1s); }
+@keyframes reveal {
+    from { opacity: 0; transform: translate3d(0, 18px, 0); }
+}
+/* The portrait is the LCP element: animate transform only, so it counts as painted immediately. */
+.portrait.reveal { animation-name: reveal-scale; animation-fill-mode: backwards; }
+@keyframes reveal-scale {
+    from { transform: perspective(1100px) scale(.94); }
+}
+.stage { animation: fade-in 1.6s ease both .2s; }
+:root[data-intro="play"] .stage { animation-delay: 1.1s; }
+@keyframes fade-in { from { opacity: 0; } }
+
+/* ---------- Photo lightbox ---------- */
+.lightbox {
+    width: 100%;
+    max-width: 100%;
+    height: 100%;
+    max-height: 100%;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    overflow: hidden;
+}
+.lightbox[open] { display: grid; place-items: center; }
+.lightbox::backdrop {
+    background: rgba(1, 4, 10, .8);
+    -webkit-backdrop-filter: blur(10px);
+    backdrop-filter: blur(10px);
+}
+.lightbox[open]::backdrop { animation: fade-in .4s ease; }
+.lightbox.is-closing::backdrop { animation: fade-in .3s ease reverse forwards; }
+.lightbox__frame { display: grid; place-items: center; }
+.lightbox__img {
+    display: block;
+    height: min(90vh, 1181px, calc(92vw * 1181 / 832));
+    width: auto;
+    max-width: none;
+    aspect-ratio: 832 / 1181;
+    border-radius: 22px;
+    background: var(--bg-2);
+    box-shadow: 0 40px 100px -30px rgba(0, 0, 0, .9), 0 0 0 1px rgba(255, 255, 255, .08), 0 0 80px -20px var(--glow);
+    transform-origin: 0 0;
+    cursor: zoom-out;
+}
+.lightbox__close {
+    position: fixed;
+    top: max(16px, env(safe-area-inset-top));
+    right: 16px;
+}
+.lightbox.is-closing .lightbox__close,
+.lightbox:not(.is-ready) .lightbox__close { opacity: 0; }
+.lightbox__close { transition: opacity .25s ease, border-color var(--dur) ease, color var(--dur) ease; }
+
+html:has(dialog[open]) { overflow: hidden; }
+
+/* ==========================================================================
+   Resume viewer (viewer.js) — shared by the dialog and the /cv page
+   ========================================================================== */
+.cv {
+    --cv-top: #010508;
+    --cv-mid: #0c2746;
+    --cv-bottom: #1a4f8c;
+    --cv-glow: rgba(39, 116, 199, .45);
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    min-height: 0;
+    background: var(--bg-2);
+}
+
+.cv__toolbar {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+    padding: 10px 12px;
+    border-bottom: 1px solid var(--border);
+    background: var(--surface-strong);
+    -webkit-backdrop-filter: blur(12px);
+    backdrop-filter: blur(12px);
+}
+
+/* Loading bar — the 2020 viewer had one too */
+.cv__progress {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -1px;
+    height: 2px;
+    background: linear-gradient(90deg, var(--accent-btn), var(--accent-2));
+    transform: scaleX(var(--progress, 0));
+    transform-origin: 0 50%;
+    transition: transform .3s ease, opacity .4s ease .2s;
+}
+.cv.is-ready .cv__progress { opacity: 0; }
+
+.cv__group {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    min-width: 0;
+}
+
+.cv__title {
+    display: none;
+    align-items: center;
+    gap: 8px;
+    margin-right: 6px;
+    font-weight: 600;
+    font-size: 14px;
+}
+.cv__title .icon { width: 16px; height: 16px; color: var(--accent); }
+
+.cv__pages {
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--text-muted);
+    white-space: nowrap;
+    padding: 0 4px;
+}
+
+.cv__btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    min-width: 38px;
+    height: 38px;
+    padding: 0 10px;
+    border: 1px solid var(--border);
+    border-radius: 11px;
+    background: transparent;
+    color: var(--text);
+    font-size: 13px;
+    cursor: pointer;
+    transition: border-color .2s ease, background-color .2s ease, color .2s ease, transform .15s ease;
+}
+.cv__btn .icon { width: 15px; height: 15px; }
+.cv__btn:hover { border-color: var(--accent); color: var(--accent); background: var(--accent-soft); }
+.cv__btn:active { transform: scale(.94); }
+.cv__btn:disabled { opacity: .4; pointer-events: none; }
+.cv__btn--accent {
+    border-color: transparent;
+    background: var(--accent-btn);
+    color: #fff;
+    font-weight: 600;
+}
+.cv__btn--accent:hover { background: var(--accent-btn-hover); color: #fff; border-color: transparent; }
+.cv__btn-label { display: none; }
+.cv__btn--wide,
+.cv__btn--page { display: none; }
+.cv__btn[hidden],
+.cv__group[hidden] { display: none !important; }
+
+.cv__zoom {
+    min-width: 62px;
+    font-family: var(--font-mono);
+    font-size: 12px;
+}
+
+.cv__stage {
+    position: relative;
+    flex: 1;
+    min-height: 0;
+    overflow: auto;
+    overscroll-behavior: contain;
+    /* Continues the resume's own black → blue gradient. viewer.js samples the
+       real colours from the rendered page, so a restyled PDF still matches. */
+    background:
+        radial-gradient(ellipse 90% 55% at 50% 105%, var(--cv-glow), transparent 70%),
+        radial-gradient(ellipse 60% 40% at 50% -5%, rgba(255, 255, 255, .05), transparent 70%),
+        linear-gradient(180deg, var(--cv-top) 0%, var(--cv-mid) 60%, var(--cv-bottom) 100%);
+    color: #c9d6ea;
+    outline: none;
+    scrollbar-width: thin;
+    scrollbar-color: #2f80d8 transparent;
+}
+.cv__stage::-webkit-scrollbar { width: 10px; height: 10px; }
+.cv__stage::-webkit-scrollbar-thumb {
+    border: 3px solid transparent;
+    border-radius: 999px;
+    background: linear-gradient(180deg, var(--accent-2), var(--accent-btn)) padding-box;
+}
+.cv__stage::-webkit-scrollbar-track,
+.cv__stage::-webkit-scrollbar-corner { background: transparent; }
+
+.cv__pages-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 16px;
+    width: max-content;
+    min-width: 100%;
+    padding: 16px;
+}
+
+.cv__page {
+    position: relative;
+    background: #fff;
+    border-radius: 6px;
+    overflow: hidden;
+    /* The stage is dark in both themes (it follows the document), so one shadow fits */
+    box-shadow: 0 26px 70px -24px rgba(0, 0, 0, .9), 0 0 0 1px rgba(255, 255, 255, .06);
+    animation: page-in .6s var(--ease-out) both;
+}
+@keyframes page-in {
+    from { opacity: 0; transform: scale(.97); }
+}
+
+.cv__canvas {
+    width: 100%;
+    height: 100%;
+    max-width: none;
+}
+
+.cv__links {
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    pointer-events: none;
+}
+.cv__links a {
+    position: absolute;
+    pointer-events: auto;
+    border-radius: 3px;
+    transition: box-shadow .2s ease;
+}
+/* The 2020 link hover: an inner Dodgerblue glow */
+.cv__links a:hover { box-shadow: inset 0 -3px 9px -1px #1e90ff; }
+
+.cv__status {
+    position: absolute;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    color: #9fb2cc;
+    font-family: var(--font-mono);
+    font-size: 13px;
+}
+.cv__status[hidden] { display: none; }
+
+.spinner {
+    width: 20px;
+    height: 20px;
+    border: 2px solid var(--border-strong);
+    border-top-color: var(--accent);
+    border-radius: 50%;
+    animation: spin .8s linear infinite;
+}
+
+.cv__frame {
+    display: block;
+    width: 100%;
+    height: calc(100% - 44px);
+    border: 0;
+    background: #fff;
+}
+.cv__fallback-note {
+    padding: 12px;
+    text-align: center;
+    font-size: 13px;
+    color: var(--text-muted);
+}
+.cv__fallback-note a { color: var(--accent); text-decoration: underline; }
+
+/* pdf.js text layer (subset of pdf_viewer.css): selectable text, native Ctrl/⌘+F search */
+.textLayer {
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    overflow: clip;
+    line-height: 1;
+    text-align: initial;
+    -webkit-text-size-adjust: none;
+    text-size-adjust: none;
+    forced-color-adjust: none;
+    transform-origin: 0 0;
+    caret-color: CanvasText;
+}
+.textLayer :is(span, br) {
+    position: absolute;
+    color: transparent;
+    white-space: pre;
+    cursor: text;
+    transform-origin: 0% 0%;
+}
+.textLayer span.markedContent { top: 0; height: 0; }
+.textLayer ::selection { background: rgba(0, 120, 255, .28); color: transparent; }
+.textLayer br::selection { background: transparent; }
+.textLayer .endOfContent {
+    display: block;
+    position: absolute;
+    inset: 100% 0 0;
+    z-index: 0;
+    cursor: default;
+    user-select: none;
+}
+
+/* ---------- Resume dialog ---------- */
+.cv-dialog {
+    width: 100%;
+    max-width: 100%;
+    height: 100%;
+    max-height: 100%;
+    margin: 0;
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: var(--text);
+    overflow: hidden;
+}
+.cv-dialog::backdrop {
+    background: rgba(1, 4, 10, .62);
+    -webkit-backdrop-filter: blur(6px);
+    backdrop-filter: blur(6px);
+}
+.cv-dialog__inner { height: 100%; }
+
+.cv-dialog[open] { animation: dialog-in .45s var(--ease-out); }
+.cv-dialog[open]::backdrop { animation: fade-in .35s ease; }
+.cv-dialog.is-closing { animation: dialog-out .25s ease forwards; }
+.cv-dialog.is-closing::backdrop { animation: fade-in .25s ease reverse forwards; }
+
+@keyframes dialog-in {
+    from { opacity: 0; transform: translate3d(0, 24px, 0) scale(.98); }
+}
+@keyframes dialog-out {
+    to { opacity: 0; transform: translate3d(0, 16px, 0) scale(.98); }
+}
+
+/* Fullscreen mode of the viewer */
+.cv:fullscreen { width: 100%; height: 100%; }
+
+/* ---------- /cv page ---------- */
+.cv-page-body { height: 100vh; height: 100dvh; overflow: hidden; }
+.cv-page-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding: 10px var(--gutter);
+    border-bottom: 1px solid var(--border);
+}
+.cv-page-header__side { display: flex; align-items: center; gap: 12px; min-width: 0; }
+.cv-page-main { flex: 1; min-height: 0; }
+.cv-page-header .brand__name { display: none; }
+
+.back-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    height: 40px;
+    padding: 0 14px 0 11px;
+    border: 1px solid var(--border-strong);
+    border-radius: var(--radius-sm);
+    background: var(--surface);
+    font-size: 14px;
+    font-weight: 600;
+    transition: border-color .25s ease, color .25s ease;
+}
+.back-btn .icon {
+    width: 14px;
+    height: 14px;
+    color: var(--accent);
+    transition: transform .3s var(--ease-out);
+}
+.back-btn:hover { border-color: var(--accent); color: var(--accent); }
+.back-btn:hover .icon { transform: translateX(-3px); }
+
+/* ==========================================================================
+   Breakpoints (mobile-first)
+   ========================================================================== */
+@media (max-width: 380px) {
+    :root { --tile: 50px; }
+    .contacts__list { gap: 7px; }
+    .greeting { font-size: 11.5px; }
+    .tile__label { font-size: 9.5px; letter-spacing: 0; }
+}
+
+@media (max-width: 559px) {
+    .greeting { border-radius: 14px; text-align: left; }
+}
+
+/* Stacked layout: the floor sits behind the text, so the light is toned down for contrast. */
+@media (max-width: 859px) {
+    :root[data-theme="dark"],
+    :root:not([data-theme]) { --fan: rgba(41, 122, 207, .42); }
+    .stage__floor { opacity: .6; }
+}
+
+@media (min-width: 480px) {
+    .cv__btn--page { display: inline-flex; }
+}
+
+@media (min-width: 560px) {
+    :root { --tile: 60px; }
+    .contacts__list { gap: 16px; }
+    .tile__label { font-size: 11px; }
+    .cv__toolbar { padding: 10px 16px; }
+    .cv-page-header .brand__name { display: inline; }
+}
+
+@media (min-width: 768px) {
+    .cv__title { display: inline-flex; }
+    .cv__btn-label { display: inline; }
+    .cv__btn--wide { display: inline-flex; }
+}
+
+@media (min-width: 860px) {
+    :root {
+        --tile: 64px;
+        --portrait-w: clamp(250px, min(27vw, calc((100vh - 290px) / 1.42)), 380px);
+    }
+    .hero {
+        grid-template-columns: auto minmax(0, 640px);
+        justify-content: center;
+        align-items: center;
+        column-gap: clamp(40px, 6vw, 96px);
+        text-align: left;
+    }
+    .hero__content { align-items: flex-start; }
+    .contacts__list { justify-content: flex-start; gap: 18px; }
+    .stack { justify-content: flex-start; }
+    .actions { justify-content: flex-start; }
+    .title { font-size: clamp(3rem, 5.6vw, 5.4rem); }
+    .subtitle { font-size: 1.35rem; }
+
+    /* A glossy stage floor: the portrait is reflected below the horizon */
+    .portrait__img { -webkit-box-reflect: below 14px linear-gradient(transparent 74%, rgba(255, 255, 255, var(--reflection, .17))); }
+
+    .footer { flex-direction: row; justify-content: space-between; }
+
+    .cv-dialog {
+        width: min(1080px, calc(100% - 64px));
+        height: calc(100% - 64px);
+        margin: auto;
+        border-radius: var(--radius-lg);
+        box-shadow: var(--shadow-lg);
+    }
+}
+
+/* ---------- Accessibility & performance safeguards ---------- */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: .01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: .01ms !important;
+        scroll-behavior: auto !important;
+    }
+}
+
+/* Older browsers without backdrop-filter: use opaque surfaces instead of glass. */
+@supports not ((backdrop-filter: blur(1px)) or (-webkit-backdrop-filter: blur(1px))) {
+    .icon-btn, .chip, .version, .toast, .cv__toolbar { background: var(--surface-strong); }
+}
+
+@media print {
+    .sky, .stage, .topbar, .actions, .version, .toast, .intro { display: none; }
+    .portrait { box-shadow: none; transform: none; }
+}
+
+/* Resume printing (viewer.js puts page images into .cv-print, then calls window.print()) */
+.cv-print { display: none; }
+@media print {
+    body:has(> .cv-print) > :not(.cv-print) { display: none !important; }
+    body:has(> .cv-print) { background: #fff; }
+    .cv-print { display: block; }
+    .cv-print img {
+        display: block;
+        width: auto;
+        height: auto;
+        max-width: 100%;
+        max-height: calc(100vh - 2px); /* one PDF page per sheet on both A4 and Letter */
+        margin: 0 auto;
+        break-after: page;
+        page-break-after: always;
+    }
+    .cv-print img:last-child { break-after: auto; page-break-after: auto; }
+}
