@@ -27,6 +27,7 @@
 <!--Style cv-->
     <link rel="stylesheet" href="libraries/pdfjs-2.4/web/viewer.css">
     <link rel="stylesheet" href="css/cv.css">
+    <link rel="stylesheet" href="css/version-switch.css">
 <!-- This snippet is used in production (included from viewer.html) -->
     <link rel="resource" type="application/l10n" href="libraries/pdfjs-2.4/web/locale/locale.properties">
     <script src="libraries/pdfjs-2.4/build/pdf.js"></script>
@@ -35,6 +36,13 @@
   </head>
 
   <body tabindex="1" class="loadingInProgress">
+<!-- Version switch (added in 2026): the classic 2020 page ⇄ the current 2026 site -->
+<nav class="vswitch vswitch_bottom" aria-label="Site version">
+    <a class="vswitch__item" href="./" title="Back to the 2020 home page"><svg viewBox="0 0 448 512" aria-hidden="true"><path transform="matrix(1 0 0 -1 0 448)" d="M257.5 2.9l-22.2-22.2c-9.4-9.4-24.6-9.4-33.9 0l-194.4 194.3c-9.4 9.4-9.4 24.6 0 33.9l194.4 194.4c9.4 9.4 24.6 9.4 33.9 0l22.2-22.2c9.5-9.5 9.3-25-.4-34.3l-120.5-114.8h287.4c13.3 0 24-10.7 24-24v-32c0-13.3-10.7-24-24-24h-287.4l120.5-114.8c9.8-9.3 10-24.8 .4-34.3z"/></svg> Back</a>
+    <span class="vswitch__item vswitch__item_current" aria-current="page">2020</span>
+    <a class="vswitch__item vswitch__item_new" href="../cv" title="Open this resume in the new 2026 version">2026 version <svg viewBox="0 0 448 512" aria-hidden="true"><path transform="matrix(1 0 0 -1 0 448)" d="M190.5 381.1l22.2 22.2c9.4 9.4 24.6 9.4 33.9 0l194.4-194.3c9.4-9.4 9.4-24.6 0-33.9l-194.4-194.4c-9.4-9.4-24.6-9.4-33.9 0l-22.2 22.2c-9.5 9.5-9.3 25 .4 34.3l120.5 114.8h-287.4c-13.3 0-24 10.7-24 24v32c0 13.3 10.7 24 24 24h287.4l-120.5 114.8c-9.8 9.3-10 24.8-.4 34.3z"/></svg></a>
+</nav>
+
     <div id="outerContainer">
 
       <div id="sidebarContainer">

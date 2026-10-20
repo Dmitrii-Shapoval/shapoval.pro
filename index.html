@@ -20,51 +20,69 @@
     <link rel="icon" type="image/png" sizes="16x16" href="favicons/favicon-16x16.png">
     <link rel="manifest" href="favicons/site.webmanifest">
 
-    <!-- Theme: applied before first paint to avoid a flash of the wrong theme. -->
     <meta name="color-scheme" content="dark light">
-    <meta name="theme-color" content="#06080c">
+    <meta name="theme-color" content="#02050b">
+    <!-- Runs before first paint: theme (no flash of the wrong theme) and the once-per-session welcome intro. -->
     <script>
         (function () {
-            try { var t = localStorage.getItem('theme'); } catch (e) {}
+            var d = document.documentElement, t;
+            try { t = localStorage.getItem('theme'); } catch (e) {}
             if (t !== 'light' && t !== 'dark') t = matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
-            document.documentElement.dataset.theme = t;
+            d.dataset.theme = t;
+            try {
+                if (!sessionStorage.getItem('intro') && location.hash !== '#resume' &&
+                    !matchMedia('(prefers-reduced-motion: reduce)').matches) {
+                    sessionStorage.setItem('intro', '1');
+                    d.dataset.intro = 'play';
+                }
+            } catch (e) {}
         })();
     </script>
-    <link rel="preload" as="image" href="images/avatar-320.webp" imagesrcset="images/avatar-320.webp 320w, images/avatar-640.webp 640w" imagesizes="(min-width: 860px) 260px, 200px" fetchpriority="high">
+    <link rel="preload" as="image" href="images/avatar-640.webp" imagesrcset="images/avatar-320.webp 320w, images/avatar-640.webp 640w, images/avatar-832.webp 832w" imagesizes="(min-width: 860px) 380px, 290px" fetchpriority="high">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<!-- Inline SVG icon sprite: no icon fonts, no extra requests. -->
-<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+<!--
+    Icons: Font Awesome Free 5.13 glyphs — the same icon family as the 2020 version — inlined as SVG
+    (no 300 KB icon font). https://fontawesome.com, icons licensed CC BY 4.0.
+-->
+<svg class="sprite" width="0" height="0" aria-hidden="true" focusable="false">
     <defs>
-        <symbol id="i-telegram" viewBox="0 0 24 24"><path d="M21.5 3.5 2.8 10.7c-.9.4-.9 1.4.1 1.7l4.7 1.5 1.8 5.6c.2.7 1.1.9 1.6.4l2.6-2.4 4.9 3.6c.6.4 1.4.1 1.6-.6l3.2-15.4c.2-.9-.7-1.6-1.6-1.2Z"/><path d="m7.6 13.9 9.9-6.4-7.6 7.4"/></symbol>
-        <symbol id="i-linkedin" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="4"/><path d="M8 10.5V17M8 7.2v.1M12 17v-6.5M12 13.5c0-1.9 1.2-3 2.7-3s2.3 1 2.3 2.9V17"/></symbol>
-        <symbol id="i-facebook" viewBox="0 0 24 24"><path d="M17 3h-2.6A4.4 4.4 0 0 0 10 7.4V10H7v4h3v7h4v-7h3l.6-4H14V7.8c0-.5.4-.8.8-.8H17Z"/></symbol>
-        <symbol id="i-mail" viewBox="0 0 24 24"><rect x="2.5" y="4.5" width="19" height="15" rx="3"/><path d="m3.5 7 8.5 6 8.5-6"/></symbol>
-        <symbol id="i-file" viewBox="0 0 24 24"><path d="M14 2.8H7A2.2 2.2 0 0 0 4.8 5v14A2.2 2.2 0 0 0 7 21.2h10a2.2 2.2 0 0 0 2.2-2.2V8Z"/><path d="M14 2.8V8h5.2M8.5 13h7M8.5 16.5h7M8.5 9.5h2.5"/></symbol>
-        <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></symbol>
-        <symbol id="i-moon" viewBox="0 0 24 24"><path d="M20.5 14.1A8.5 8.5 0 1 1 9.9 3.5a6.6 6.6 0 0 0 10.6 10.6Z"/></symbol>
-        <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
-        <symbol id="i-minus" viewBox="0 0 24 24"><path d="M5 12h14"/></symbol>
-        <symbol id="i-download" viewBox="0 0 24 24"><path d="M12 3.5v12M7 10.5l5 5 5-5M4.5 20.5h15"/></symbol>
-        <symbol id="i-external" viewBox="0 0 24 24"><path d="M14 4h6v6M20 4l-9 9M18 14v4a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4"/></symbol>
-        <symbol id="i-close" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18"/></symbol>
-        <symbol id="i-history" viewBox="0 0 24 24"><path d="M3.5 12a8.5 8.5 0 1 0 2.5-6"/><path d="M3 4v4.5h4.5M12 7.5V12l3 2"/></symbol>
-        <symbol id="i-check" viewBox="0 0 24 24"><path d="m5 12.5 4.5 4.5L19 7.5"/></symbol>
+        <linearGradient id="g-glyph" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0" style="stop-color: var(--glyph-a)"/>
+            <stop offset="1" style="stop-color: var(--glyph-b)"/>
+        </linearGradient>
+<!--SPRITE:telegram=telegram-plane linkedin=linkedin-in facebook=facebook-f mail=envelope resume=file-alt contact=address-card share=share-alt copy=copy check=check sun=sun moon=moon expand=expand history=history close=times-->
+        <symbol id="i-telegram" viewBox="0 0 448 512"><path transform="matrix(1 0 0 -1 0 448)" d="M446.7 349.4l-67.6-318.8c-5.1-22.5-18.4-28.1-37.3-17.5l-103 75.9l-49.7-47.8c-5.5-5.5-10.1-10.1-20.7-10.1l7.4 104.9l190.9 172.5c8.3 7.4-1.8 11.5-12.9 4.1l-236-148.6l-101.6 31.8c-22.1 6.9-22.5 22.1 4.6 32.7l397.4 153.1c18.4 6.9 34.5-4.1 28.5-32.2z"/></symbol>
+        <symbol id="i-linkedin" viewBox="0 0 448 512"><path transform="matrix(1 0 0 -1 0 448)" d="M100.3 0h-92.9v299.1h92.9v-299.1zM53.8 339.9c-29.7 0-53.8 24.6-53.8 54.3c0 29.7 24.1 53.8 53.8 53.8s53.8-24.1 53.8-53.8c0-29.7-24.1-54.3-53.8-54.3zM447.9 0h-92.7v145.6c0 34.7-.7 79.2-48.3 79.2c-48.3 0-55.7-37.7-55.7-76.7v-148.1h-92.8v299.1h89.1v-40.8h1.3c12.4 23.5 42.7 48.3 87.9 48.3c94 0 111.3-61.9 111.3-142.3v-164.3h-.1z"/></symbol>
+        <symbol id="i-facebook" viewBox="0 0 320 512"><path transform="matrix(1 0 0 -1 0 448)" d="M279.1 160h-74.7v-224h-100.2v224h-81.4v92.7h81.4v70.6c0 80.3 47.9 124.7 121.1 124.7c35.1 0 71.8-6.3 71.8-6.3v-78.9h-40.4c-39.8 0-52.2-24.7-52.2-50.1v-60.1h88.9z"/></symbol>
+        <symbol id="i-mail" viewBox="0 0 512 512"><path transform="matrix(1 0 0 -1 0 448)" d="M502.3 257.2c3.9 3.1 9.7 .2 9.7-4.7v-204.5c0-26.5-21.5-48-48-48h-416c-26.5 0-48 21.5-48 48v204.4c0 5 5.7 7.8 9.7 4.7c22.4-17.4 52.1-39.5 154.1-113.6c21.1-15.4 56.7-47.8 92.2-47.6c35.7-.3 72 32.8 92.3 47.6c102 74.1 131.6 96.3 154 113.7zM256 128c-23.2-.4-56.6 29.2-73.4 41.4c-132.7 96.3-142.8 104.8-173.4 128.7c-5.8 4.6-9.2 11.5-9.2 18.9v19c0 26.5 21.5 48 48 48h416c26.5 0 48-21.5 48-48v-19c0-7.4-3.4-14.4-9.2-18.9c-30.6-24-40.7-32.4-173.4-128.7c-16.8-12.2-50.2-41.8-73.4-41.4z"/></symbol>
+        <symbol id="i-resume" viewBox="0 0 384 512"><path transform="matrix(1 0 0 -1 0 448)" d="M224 312c0-13.2 10.8-24 24-24h136v-328c0-13.3-10.7-24-24-24h-336c-13.3 0-24 10.7-24 24v464c0 13.3 10.7 24 24 24h200v-136zM288 76v8c0 6.6-5.4 12-12 12h-168c-6.6 0-12-5.4-12-12v-8c0-6.6 5.4-12 12-12h168c6.6 0 12 5.4 12 12zM288 140v8c0 6.6-5.4 12-12 12h-168c-6.6 0-12-5.4-12-12v-8c0-6.6 5.4-12 12-12h168c6.6 0 12 5.4 12 12zM288 212c0 6.6-5.4 12-12 12h-168c-6.6 0-12-5.4-12-12v-8c0-6.6 5.4-12 12-12h168c6.6 0 12 5.4 12 12v8zM384 326.1v-6.1h-128v128h6.1c6.4 0 12.5-2.5 17-7l97.9-98c4.5-4.5 7-10.6 7-16.9z"/></symbol>
+        <symbol id="i-contact" viewBox="0 0 576 512"><path transform="matrix(1 0 0 -1 0 448)" d="M528 416c26.5 0 48-21.5 48-48v-352c0-26.5-21.5-48-48-48h-480c-26.5 0-48 21.5-48 48v352c0 26.5 21.5 48 48 48h480zM176 320c-35.3 0-64-28.7-64-64s28.7-64 64-64s64 28.7 64 64s-28.7 64-64 64zM288 83.2v19.2c0 31.8-30.1 57.6-67.2 57.6h-5c-12.2-5.1-25.7-8-39.8-8s-27.5 2.9-39.8 8h-5c-37.1 0-67.2-25.8-67.2-57.6v-19.2c0-10.6 10-19.2 22.4-19.2h179.2c12.4 0 22.4 8.6 22.4 19.2zM512 136v16c0 4.4-3.6 8-8 8h-144c-4.4 0-8-3.6-8-8v-16c0-4.4 3.6-8 8-8h144c4.4 0 8 3.6 8 8zM512 200v16c0 4.4-3.6 8-8 8h-144c-4.4 0-8-3.6-8-8v-16c0-4.4 3.6-8 8-8h144c4.4 0 8 3.6 8 8zM512 264v16c0 4.4-3.6 8-8 8h-144c-4.4 0-8-3.6-8-8v-16c0-4.4 3.6-8 8-8h144c4.4 0 8 3.6 8 8z"/></symbol>
+        <symbol id="i-share" viewBox="0 0 448 512"><path transform="matrix(1 0 0 -1 0 448)" d="M352 128c53 0 96-43 96-96s-43-96-96-96s-96 43-96 96v0c0 5.8 1 15.1 2.3 20.8l-102.5 64.1c-16.4-13.1-37.2-20.9-59.8-20.9c-53 0-96 43-96 96s43 96 96 96c22.6 0 43.4-7.8 59.8-20.9l102.5 64.1c-1.5 6.7-2.3 13.7-2.3 20.8c0 53 43 96 96 96s96-43 96-96s-43-96-96-96c-22.6 0-43.4 7.8-59.8 20.9l-102.5-64.1c1.3-5.7 2.3-15 2.3-20.8c0-5.8-1-15.2-2.3-20.8l102.5-64.1c16.4 13.1 37.2 20.9 59.8 20.9z"/></symbol>
+        <symbol id="i-copy" viewBox="0 0 448 512"><path transform="matrix(1 0 0 -1 0 448)" d="M320 0v-40c0-13.3-10.7-24-24-24h-272c-13.3 0-24 10.7-24 24v368c0 13.3 10.7 24 24 24h72v-296c0-30.9 25.1-56 56-56h168zM320 344c0-13.2 10.8-24 24-24h104v-264c0-13.3-10.7-24-24-24h-272c-13.3 0-24 10.7-24 24v368c0 13.3 10.7 24 24 24h168v-104zM441 375c3.9-3.9 7-11.5 7-17v-6.1h-96v96h6.1c5.5 0 13.1-3.1 17-7z"/></symbol>
+        <symbol id="i-check" viewBox="0 0 512 512"><path transform="matrix(1 0 0 -1 0 448)" d="M173.9 8.6l-166.4 166.4c-10 10-10 26.2 0 36.2l36.2 36.2c10 10 26.2 10 36.2 0l112.1-112.1l240.1 240.1c10 10 26.2 10 36.2 0l36.2-36.2c10-10 10-26.2 0-36.2l-294.4-294.4c-10-10-26.2-10-36.2 0z"/></symbol>
+        <symbol id="i-sun" viewBox="0 0 512 512"><path transform="matrix(1 0 0 -1 0 448)" d="M256 288c52.9 0 96-43.1 96-96s-43.1-96-96-96s-96 43.1-96 96s43.1 96 96 96zM502.4 207.5c12.8-6.4 12.8-24.6-.2-31.1l-94.7-47.3l33.5-100.4c4.6-13.5-8.3-26.4-21.9-21.9l-100.4 33.5l-47.3-94.7c-6.4-12.8-24.6-12.8-31 0l-47.3 94.7l-100.4-33.5c-13.5-4.6-26.4 8.3-21.9 21.9l33.5 100.5l-94.7 47.3c-12.8 6.4-12.8 24.6 0 31l94.7 47.4l-33.5 100.4c-4.6 13.5 8.3 26.4 21.9 21.9l100.5-33.5l47.3 94.7c6.4 12.8 24.6 12.8 31 0l47.4-94.8l100.4 33.5c13.5 4.6 26.4-8.3 21.9-21.9l-33.5-100.4zM346.5 101.5c49.9 49.9 49.9 131.1 0 181s-131.1 49.9-181 0s-49.9-131.1 0-181s131.1-49.9 181 0z"/></symbol>
+        <symbol id="i-moon" viewBox="0 0 512 512"><path transform="matrix(1 0 0 -1 0 448)" d="M283.2-64c-141.5 0-256 114.7-256 256c0 141.5 114.7 256 256 256c13 0 34-1.9 46.8-4.3c11-2 13.4-16.7 3.8-22.2c-62.8-35.8-101.5-102.2-101.5-174.4c0-125.4 114.1-220.6 238.3-197c10.9 2.1 18.6-10.6 11.6-19.3c-47.8-58.9-119.9-94.8-198.9-94.8z"/></symbol>
+        <symbol id="i-expand" viewBox="0 0 448 512"><path transform="matrix(1 0 0 -1 0 448)" d="M0 268v124c0 13.3 10.7 24 24 24h124c6.6 0 12-5.4 12-12v-40c0-6.6-5.4-12-12-12h-84v-84c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12zM288 404c0 6.6 5.4 12 12 12h124c13.3 0 24-10.7 24-24v-124c0-6.6-5.4-12-12-12h-40c-6.6 0-12 5.4-12 12v84h-84c-6.6 0-12 5.4-12 12v40zM436 128c6.6 0 12-5.4 12-12v-124c0-13.3-10.7-24-24-24h-124c-6.6 0-12 5.4-12 12v40c0 6.6 5.4 12 12 12h84v84c0 6.6 5.4 12 12 12h40zM160-20c0-6.6-5.4-12-12-12h-124c-13.3 0-24 10.7-24 24v124c0 6.6 5.4 12 12 12h40c6.6 0 12-5.4 12-12v-84h84c6.6 0 12-5.4 12-12v-40z"/></symbol>
+        <symbol id="i-history" viewBox="0 0 512 512"><path transform="matrix(1 0 0 -1 0 448)" d="M504 192.5c.3-136.6-111.2-248.4-247.8-248.5c-59 0-113.2 20.5-155.8 54.9c-11.1 8.9-11.9 25.5-1.8 35.6l11.3 11.3c8.6 8.6 22.4 9.6 31.9 2c31.4-24.9 71.1-39.8 114.3-39.8c101.7 0 184 82.3 184 184c0 101.7-82.3 184-184 184c-48.8 0-93.1-19-126.1-49.9l50.8-50.8c10.1-10.1 2.9-27.3-11.3-27.3h-145.4c-8.8 0-16 7.2-16 16v145.4c0 14.3 17.2 21.4 27.3 11.3l49.4-49.4c44.5 42.5 104.9 68.7 171.3 68.7c136.8 0 247.7-110.8 248-247.5zM323.1 113.7c-8.1-10.5-23.2-12.3-33.7-4.2l-65.4 50.9v135.7c0 13.3 10.7 24 24 24h16c13.3 0 24-10.7 24-24v-104.3l40.7-31.7c10.5-8.1 12.3-23.2 4.2-33.7z"/></symbol>
+        <symbol id="i-close" viewBox="0 0 352 512"><path transform="matrix(1 0 0 -1 0 448)" d="M242.7 192l100.1-100.1c12.3-12.3 12.3-32.2 0-44.5l-22.2-22.2c-12.3-12.3-32.2-12.3-44.5 0l-100.1 100.1l-100.1-100.1c-12.3-12.3-32.2-12.3-44.5 0l-22.2 22.2c-12.3 12.3-12.3 32.2 0 44.5l100.1 100.1l-100.1 100.1c-12.3 12.3-12.3 32.2 0 44.5l22.2 22.2c12.3 12.3 32.2 12.3 44.5 0l100.1-100.1l100.1 100.1c12.3 12.3 32.2 12.3 44.5 0l22.2-22.2c12.3-12.3 12.3-32.2 0-44.5z"/></symbol>
+<!--/SPRITE-->
     </defs>
 </svg>
 
+<!-- Welcome intro: the 2020 "Hello!" screen, now ~1.3 s, once per session, skippable. Text comes from CSS, so it is not indexed twice. -->
+<div class="intro" aria-hidden="true" data-intro-screen></div>
+
 <a class="skip-link" href="#main">Skip to content</a>
 
-<!-- Decorative background: grid + two drifting glow orbs (transform-only animation). -->
-<div class="backdrop" aria-hidden="true">
-    <div class="backdrop__grid"></div>
-    <div class="backdrop__orb backdrop__orb--a"></div>
-    <div class="backdrop__orb backdrop__orb--b"></div>
-</div>
+<!-- Night sky behind everything (static) -->
+<div class="sky" aria-hidden="true"></div>
 
+<!-- .page clips the oversized stage effects, so they never add scrollbars -->
+<div class="page">
 <header class="topbar">
-    <a class="brand" href="/" aria-label="shapoval.pro — home">
+    <a class="brand" href="./" aria-label="shapoval.pro — home">
         <span class="brand__mark" aria-hidden="true">DS</span>
         <span class="brand__name">shapoval<span class="brand__tld">.pro</span></span>
     </a>
@@ -74,73 +92,113 @@
     </button>
 </header>
 
-<main class="main" id="main">
-    <section class="card" aria-labelledby="name">
-        <div class="avatar reveal" style="--i:0">
-            <div class="avatar__frame">
-                <picture>
-                    <source type="image/webp" srcset="images/avatar-320.webp 320w, images/avatar-640.webp 640w" sizes="(min-width: 860px) 260px, 200px">
-                    <img src="images/DmitriiShapoval-avatar.jpg" alt="Dmitrii Shapoval" class="avatar__photo" width="832" height="1181" fetchpriority="high" decoding="async">
-                </picture>
-            </div>
-            <span class="avatar__status" aria-hidden="true"></span>
+<main class="hero" id="main">
+    <div class="hero__media">
+        <!-- The 2020 stage: a blue light fan on the "floor", now with a horizon line and a moving grid -->
+        <div class="stage" aria-hidden="true">
+            <div class="stage__halo"></div>
+            <div class="stage__fan"></div>
+            <div class="stage__floor"><div class="stage__plane"><div class="stage__grid"></div></div></div>
+            <div class="stage__horizon"></div>
         </div>
 
-        <div class="card__body">
-            <p class="greeting reveal" style="--i:1">
-                <span class="greeting__prompt" aria-hidden="true">&gt;_</span>
-                <span>Hello! Welcome to my business card site.</span>
-            </p>
-            <h1 class="title reveal" id="name" style="--i:2">Dmitrii Shapoval</h1>
-            <h2 class="subtitle reveal" style="--i:3">Web - developer</h2>
+        <!-- Click to enlarge — the 2020 hover zoom, reworked as an accessible lightbox -->
+        <button class="portrait reveal" type="button" style="--i:0" data-portrait aria-label="Enlarge photo" aria-haspopup="dialog">
+            <span class="portrait__ring" aria-hidden="true"></span>
+            <picture>
+                <source type="image/webp" srcset="images/avatar-320.webp 320w, images/avatar-640.webp 640w, images/avatar-832.webp 832w" sizes="(min-width: 860px) 380px, 290px">
+                <img src="images/DmitriiShapoval-avatar.jpg" alt="Dmitrii Shapoval" class="portrait__img" width="832" height="1181" fetchpriority="high" decoding="async">
+            </picture>
+            <span class="portrait__glare" aria-hidden="true"></span>
+            <span class="portrait__zoom" aria-hidden="true"><svg class="icon"><use href="#i-expand"></use></svg></span>
+        </button>
+    </div>
 
-            <nav class="contacts reveal" style="--i:4" aria-label="Contacts">
-                <ul class="contacts__list">
-                    <li>
-                        <a class="contact" href="https://t.me/Dmitrii_Shapoval" target="_blank" rel="noopener me" aria-label="Telegram">
-                            <span class="contact__icon"><svg class="icon" aria-hidden="true"><use href="#i-telegram"></use></svg></span>
-                            <span class="contact__label">Telegram</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="contact" href="https://www.linkedin.com/in/dmitrii-shapoval/" target="_blank" rel="noopener me" aria-label="LinkedIn">
-                            <span class="contact__icon"><svg class="icon" aria-hidden="true"><use href="#i-linkedin"></use></svg></span>
-                            <span class="contact__label">LinkedIn</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a class="contact" href="https://www.facebook.com/www.shapoval.pro" target="_blank" rel="noopener me" aria-label="Facebook">
-                            <span class="contact__icon"><svg class="icon" aria-hidden="true"><use href="#i-facebook"></use></svg></span>
-                            <span class="contact__label">Facebook</span>
-                        </a>
-                    </li>
-                    <li>
-                        <!-- Click copies the address (see script.js); without JS it is a plain mailto link. -->
-                        <a class="contact" href="mailto:dmitrii@shapoval.pro" data-copy-email="dmitrii@shapoval.pro" aria-label="Email dmitrii@shapoval.pro (click to copy)" title="dmitrii@shapoval.pro — click to copy">
-                            <span class="contact__icon"><svg class="icon" aria-hidden="true"><use href="#i-mail"></use></svg></span>
-                            <span class="contact__label">Email</span>
-                        </a>
-                    </li>
-                    <li>
-                        <!-- Opens the built-in viewer (script.js); falls back to the /cv page. -->
-                        <a class="contact contact--accent" href="cv" data-open-cv aria-label="Resume" title="Resume">
-                            <span class="contact__icon"><svg class="icon" aria-hidden="true"><use href="#i-file"></use></svg></span>
-                            <span class="contact__label">Resume</span>
-                        </a>
-                    </li>
-                </ul>
-            </nav>
+    <div class="hero__content">
+        <p class="greeting reveal" style="--i:1">
+            <span class="greeting__prompt" aria-hidden="true">&gt;_</span>
+            <span>Hello! Welcome to my business card site.</span>
+        </p>
+        <h1 class="title reveal" id="name" style="--i:2">Dmitrii Shapoval</h1>
+        <h2 class="subtitle reveal" style="--i:3">Frontend Developer</h2>
+
+        <nav class="contacts reveal" style="--i:4" aria-label="Contacts">
+            <ul class="contacts__list">
+                <li>
+                    <a class="tile" href="https://t.me/Dmitrii_Shapoval" target="_blank" rel="noopener me" aria-label="Telegram: @Dmitrii_Shapoval">
+                        <span class="tile__box"><svg class="icon" aria-hidden="true"><use href="#i-telegram"></use></svg></span>
+                        <span class="tile__label">Telegram</span>
+                        <span class="tile__tip" aria-hidden="true">@Dmitrii_Shapoval</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="tile" href="https://www.linkedin.com/in/dmitrii-shapoval/" target="_blank" rel="noopener me" aria-label="LinkedIn: dmitrii-shapoval">
+                        <span class="tile__box"><svg class="icon" aria-hidden="true"><use href="#i-linkedin"></use></svg></span>
+                        <span class="tile__label">LinkedIn</span>
+                        <span class="tile__tip" aria-hidden="true">in/dmitrii-shapoval</span>
+                    </a>
+                </li>
+                <li>
+                    <a class="tile" href="https://www.facebook.com/www.shapoval.pro" target="_blank" rel="noopener me" aria-label="Facebook">
+                        <span class="tile__box"><svg class="icon" aria-hidden="true"><use href="#i-facebook"></use></svg></span>
+                        <span class="tile__label">Facebook</span>
+                        <span class="tile__tip" aria-hidden="true">facebook.com/www.shapoval.pro</span>
+                    </a>
+                </li>
+                <li>
+                    <!-- Click copies the address (the 2020 "Click to copy ✉" tooltip); without JS it is a plain mailto link. -->
+                    <a class="tile" href="mailto:dmitrii@shapoval.pro" data-copy-email="dmitrii@shapoval.pro" aria-label="Email dmitrii@shapoval.pro (click to copy)">
+                        <span class="tile__box"><svg class="icon" aria-hidden="true"><use href="#i-mail"></use></svg></span>
+                        <span class="tile__label">Email</span>
+                        <span class="tile__tip" aria-hidden="true">
+                            <span class="tile__tip-main">dmitrii@shapoval.pro</span>
+                            <span class="tile__tip-hint" data-copy-hint>
+                                <svg class="icon" aria-hidden="true"><use href="#i-copy"></use></svg>Click to copy
+                            </span>
+                        </span>
+                    </a>
+                </li>
+                <li>
+                    <!-- Opens the built-in viewer (script.js); falls back to the /cv page. -->
+                    <a class="tile tile--accent" href="cv" data-open-cv aria-label="Resume" aria-haspopup="dialog">
+                        <span class="tile__box"><svg class="icon" aria-hidden="true"><use href="#i-resume"></use></svg></span>
+                        <span class="tile__label">Resume</span>
+                        <span class="tile__tip" aria-hidden="true">View or download PDF</span>
+                    </a>
+                </li>
+            </ul>
+        </nav>
+
+        <div class="actions reveal" style="--i:5">
+            <a class="chip" href="dmitrii-shapoval.vcf" download="Dmitrii Shapoval.vcf">
+                <svg class="icon" aria-hidden="true"><use href="#i-contact"></use></svg><span>Save contact</span>
+            </a>
+            <button class="chip" type="button" data-share hidden>
+                <svg class="icon" aria-hidden="true"><use href="#i-share"></use></svg><span>Share</span>
+            </button>
         </div>
-    </section>
+    </div>
 </main>
 
 <footer class="footer">
     <h3 class="footer__copyright copyright"> © Dmitrii Shapoval 2020 - <span class="copyright__this-year">2026</span></h3>
-    <a class="legacy-link" href="legacy/">
-        <svg class="icon" aria-hidden="true"><use href="#i-history"></use></svg>
-        <span>Back to the classic 2020 version</span>
-    </a>
+    <nav class="version" aria-label="Site version">
+        <span class="version__item is-current" aria-current="page">2026</span>
+        <a class="version__item" href="legacy/" title="Back to the classic 2020 version">
+            <svg class="icon" aria-hidden="true"><use href="#i-history"></use></svg>
+            <span>Classic 2020</span>
+        </a>
+    </nav>
 </footer>
+</div>
+
+<!-- Photo lightbox (the image is created on first open) -->
+<dialog class="lightbox" id="lightbox" aria-label="Photo of Dmitrii Shapoval">
+    <div class="lightbox__frame" data-lightbox-frame></div>
+    <button class="lightbox__close icon-btn" type="button" data-lightbox-close aria-label="Close photo">
+        <svg class="icon" aria-hidden="true"><use href="#i-close"></use></svg>
+    </button>
+</dialog>
 
 <!-- Resume viewer (filled on demand by viewer.js) -->
 <dialog class="cv-dialog" id="cvDialog" aria-label="Resume — Dmitrii Shapoval">
@@ -151,6 +209,7 @@
 <div class="toast" role="status" aria-live="polite" data-toast>
     <svg class="icon" aria-hidden="true"><use href="#i-check"></use></svg>
     <span data-toast-text></span>
+    <a class="toast__action" data-toast-action hidden></a>
 </div>
 
 <script type="module" src="script.js"></script>
